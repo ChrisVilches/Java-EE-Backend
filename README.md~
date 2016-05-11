@@ -1,0 +1,123 @@
+# TBD Taller 1: Entorno de Desarrollo
+
+# Cambios
+
+1. Hay que reemplazar ```ON DELETE RESTRICT``` por ```ON DELETE CASCADE``` (archivo de la creacion de la scheme de la BD).
+
+# Compilacion
+
+Compilar con el comando (en la carpeta del proyecto)
+
+```
+gradle war
+```
+
+
+# Actor
+
+Formato JSON de actor:
+
+```
+{
+	"firstName":"Felipe",
+	"lastName":"Vilches"
+}
+```
+
+Obtener actores
+
+```GET /actors```
+
+Obtener actor por ID
+
+```GET /actors/{id}```
+
+Crear actor
+
+```POST /actors/ (enviar JSON)```
+
+Modificar actor
+
+```PUT /actors/{id} (enviar JSON)```
+
+Eliminar actor
+
+```DELETE /actors/{actor_id} ```
+
+
+
+
+# Film
+
+Formato JSON (el atributo ```originalLanguageId``` no es necesario incluirlo):
+
+```
+{
+	"description":"Esta pelicula fue agregada desde curl y es muy buena, vela ;)",
+	"languageId":1,
+	"length":86,
+	"rating":"PG",
+	"releaseYear":2006,
+	"originalLanguageId": 2,
+	"rentalDuration":6,
+	"rentalRate":0,
+	"replacementCost":20,
+	"specialFeatures":"Deleted Scenes,Behind the Scenes",
+	"title":"Titulo de pelicula agregada por CURL"
+}
+```
+
+Obtener peliculas
+
+```GET /films```
+
+Obtener pelicula por su ID
+
+```GET /films/{id}```
+
+Crear pelicula
+
+```POST /films (enviar JSON)```
+
+Modificar pelicula
+
+```PUT /films/{id} (enviar JSON)```
+
+Eliminar una pelicula
+
+```DELETE /films/{film_id}```
+
+
+
+
+# Actores que trabajan en Film (film_actor)
+
+Obtener actores que trabajan en una film
+
+```GET /films/{film_id}/actors```
+
+Obtener todas las peliculas en las que trabaja un actor
+
+```GET actors/{actor_id}/films```
+
+Agregar actor a pelicula
+
+```POST /films/{film_id}/actors/{actor_id}```
+
+Sacar un actor de participar en una pelicula
+
+```DELETE /films/{film_id}/actors/{actor_id}```
+
+
+
+
+# Solucion a errores al crear un servicio RESTful
+
+Posibles errores al crear nuevos recursos (URIs) RESTful en Java EE (como recordatorio).
+
+1. La clase debe empezar con mayuscula en ```"SELECT a FROM Film a"```
+2. Colocar el ```@Table(name = "film")``` al inicio de la clase en el modelo
+3. Asegurarse de modificar todos los archivos y agregar la clase correspondiente al crear un nuevo recurso (actor, film, etc)
+4. Modificar el archivo ```persistence.xml``` cuando se quiera agregar un nuevo recurso. Agregar un ```<class>model.Film</class>``` 
+5. Para numeros que en la BD pueden ser ```NULL```, Java EE automaticamente trata ```NULL``` como ```0```, por lo tanto se debe usar ```Integer``` en vez de ```int``` para que se haga la diferencia entre ```NULL``` y ```0```.
+
