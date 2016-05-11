@@ -12,7 +12,7 @@ import model.Actor;
 public class ActorFacadeEJB extends AbstractFacade<Actor> implements ActorFacade {
 	
 	
-	@PersistenceContext(unitName = "sakilaPU")
+	@PersistenceContext(unitName = "recreuPU")
 	private EntityManager em;
 	
 	public ActorFacadeEJB() {

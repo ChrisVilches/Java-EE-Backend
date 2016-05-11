@@ -3,8 +3,6 @@ package facade;
 import java.util.List;
 
 import javax.ejb.Local;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 
 import model.Actor;
 
