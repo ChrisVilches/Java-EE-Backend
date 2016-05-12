@@ -8,22 +8,22 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import facade.UsuarioFacade;
-import model.Usuario;
+import facade.CarreraFacade;
+import model.Carrera;
 
-@Path("/usuarios")
-public class UsuarioService {
+@Path("/carreras")
+public class CarreraService {
 	
 	@EJB 
-	UsuarioFacade usuarioEJB;
+	CarreraFacade CarreraEJB;
 
 	
 	Logger logger = Logger.getLogger(UsuarioService.class.getName());
 	
 	@GET
 	@Produces({"application/xml", "application/json"})
-	public List<Usuario> findAll(){
-		return usuarioEJB.findAll();
+	public List<Carrera> findAll(){
+		return CarreraEJB.findAll();
 	}
 	
 
