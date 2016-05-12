@@ -5,18 +5,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import facade.AbstractFacade;
-import facade.ActorFacade;
-import model.Actor;
+import facade.ActividadFacade;
+import model.Actividad;
 
 @Stateless
-public class ActorFacadeEJB extends AbstractFacade<Actor> implements ActorFacade {
+public class ActividadEJB extends AbstractFacade<Actividad> implements ActividadFacade {
 	
 	
 	@PersistenceContext(unitName = "recreuPU")
 	private EntityManager em;
 	
-	public ActorFacadeEJB() {
-		super(Actor.class);
+	public ActividadEJB() {
+		super(Actividad.class);
 	}
 
 	@Override
