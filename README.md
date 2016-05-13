@@ -1,6 +1,26 @@
 # Java EE Backend
 
-Pool ```JDBC/recreu_pool```
+## Tabla de contenidos
+
+<!-- toc -->
+
+- [Configuracion](#configuracion)
+- [Manual de uso](#manual-de-uso)
+  * [Usuario](#usuario)
+    + [Listar todos los usuarios](#listar-todos-los-usuarios)
+    + [Login](#login)
+    + [Registrar usuario](#registrar-usuario)
+    + [Eliminar usuario](#eliminar-usuario)
+
+<!-- tocstop -->
+
+# Configuracion
+
+Crear la siguiente Pool en Glassfish:
+
+```
+JDBC/recreu_pool
+```
 
 # Manual de uso
 
