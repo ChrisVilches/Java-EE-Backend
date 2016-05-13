@@ -1,7 +1,6 @@
 package model;
 
 
-import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -19,16 +18,16 @@ public class Usuario implements Serializable {
 
 	@Column(name="correo", nullable=false, length=45) 	private String correo;
 	@Column(name="password", nullable=false, length=45) 	private String password;
-	@Column(name="disponibilidad", nullable=false) private Boolean disponibilidad;
-	@Column(name="created_at", nullable=false) private Date createdAt;
-	@Column(name="last_sign_in", nullable=false) private Timestamp lastSignIn;
-	@Column(name="last_update", nullable=false) private Timestamp lastUpdate;
+	@Column(name="disponibilidad", nullable=false, insertable=false) private Boolean disponibilidad;
+	@Column(name="created_at", nullable=false, insertable=false) private Date createdAt;
+	@Column(name="last_sign_in", nullable=false, insertable=false) private Timestamp lastSignIn;
+	@Column(name="last_update", nullable=false, insertable=false) private Timestamp lastUpdate;
 	
 
-	@Column(name="last_position_x", nullable=true) private Float lastPositionX;
-	@Column(name="last_position_y", nullable=true) private Float lastPositionY;
+	@Column(name="last_position_x", nullable=true, insertable=false) private Float lastPositionX;
+	@Column(name="last_position_y", nullable=true, insertable=false) private Float lastPositionY;
 	
-	@Column(name="es_activo", nullable=false) private Boolean esActivo;
+	@Column(name="es_activo", nullable=false, insertable=false) private Boolean esActivo;
 	
 	@Column(name="primer_nombre", nullable=false, length=45) 	private String primerNombre;
 	@Column(name="segundo_nombre", nullable=true, length=45) 	private String segundoNombre;
@@ -83,13 +82,13 @@ public class Usuario implements Serializable {
 		this.disponibilidad = disponibilidad;
 	}
 
-	public Date getCreatedAt() {
+	/*public Date getCreatedAt() {
 		return createdAt;
-	}
+	}*/
 
-	public void setCreatedAt(Date createdAt) {
+	/*public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
-	}
+	}*/
 
 	public Timestamp getLastSignIn() {
 		return lastSignIn;
@@ -99,13 +98,13 @@ public class Usuario implements Serializable {
 		this.lastSignIn = lastSignIn;
 	}
 
-	public Timestamp getLastUpdate() {
+	/*public Timestamp getLastUpdate() {
 		return lastUpdate;
-	}
+	}*/
 
-	public void setLastUpdate(Timestamp lastUpdate) {
+	/*public void setLastUpdate(Timestamp lastUpdate) {
 		this.lastUpdate = lastUpdate;
-	}
+	}*/
 
 	public Float getLastPositionX() {
 		return lastPositionX;

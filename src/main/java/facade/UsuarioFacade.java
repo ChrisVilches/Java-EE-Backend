@@ -17,6 +17,8 @@ public interface UsuarioFacade {
 	public void remove(Usuario entity);
 
 	public Usuario find(Object id);
+	
+	public boolean usuarioExiste(Usuario entity);
 
 	public List<Usuario> findAll();
 
