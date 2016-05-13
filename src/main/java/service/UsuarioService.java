@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import ejb.UsuarioEJB;
 import facade.UsuarioFacade;
 import model.Usuario;
 import util.StatusCodeExtra;
@@ -36,6 +38,7 @@ public class UsuarioService {
 	@POST
 	@Path("/login")
 	@Produces({"application/xml", "application/json"})
+	@Consumes({ "application/xml", "application/json" })
 	public Response login(Usuario login){
 		
 		String username = login.getCorreo();
@@ -63,6 +66,7 @@ public class UsuarioService {
 	
 	@POST
 	@Produces({"application/xml", "application/json"})
+	@Consumes({ "application/xml", "application/json" })
 	public Response registrarUsuario(Usuario nuevoUsuario){
 		
 		if(nuevoUsuario.getPassword().length() < 6) {
@@ -99,6 +103,22 @@ public class UsuarioService {
 		
 		return Response.status(Status.OK).build();
 
+	}
+	
+	
+	@DELETE
+	@Path("{usuario_id}")
+	@Produces({"application/xml", "application/json"})
+	public Response eliminarUsuario(@PathParam("usuario_id") Integer usuario_id){		
+		
+		Usuario usuarioABorrar = usuarioEJB.find(usuario_id);
+		
+		if(usuarioABorrar == null){
+			return Response.status(Status.BAD_REQUEST).entity("El usuario que se intenta eliminar no existe.").build();
+		}
+		
+		usuarioEJB.remove(usuarioABorrar);		
+		return Response.status(Status.OK).build();
 	}
 	
 

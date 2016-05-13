@@ -76,3 +76,9 @@ En caso de querer incorporar la carrera, se pone de esta forma
 ```
 
 Los demas atributos (```disponibilidad```, ```last_update```, etc) no se insertan al registrar usuario (se ignoran).
+
+### Eliminar usuario
+
+```DELETE /usuarios/{id}```
+
+Si lo elimina exitosamente, retorna codigo de estado ```200 (OK)```, y retorna codigo de error en caso que el usuario no existe.
