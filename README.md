@@ -4,25 +4,31 @@
 
 <!-- toc -->
 
-- [Configuracion](#configuracion)
-- [Manual de uso](#manual-de-uso)
-  * [Usuario](#usuario)
-    + [Listar todos los usuarios](#listar-todos-los-usuarios)
-    + [Login](#login)
-    + [Registrar usuario](#registrar-usuario)
-    + [Eliminar usuario](#eliminar-usuario)
+- [Configuracion de la base de datos](#configuracion-de-la-base-de-datos)
+- [Configuracion de Glassfish](#configuracion-de-glassfish)
+- [Usuario](#usuario)
+  * [Listar todos los usuarios](#listar-todos-los-usuarios)
+  * [Login](#login)
+  * [Registrar usuario](#registrar-usuario)
+  * [Eliminar usuario](#eliminar-usuario)
 
 <!-- tocstop -->
 
-# Configuracion
+## Configuracion de la base de datos
 
-Crear la siguiente Pool en Glassfish:
+1. En la carpeta ```/DB``` se encuentra el modelo (se abre con MySQL Workbench). Este modelo puede compilar codigo.
+2. Tambien se encuentra en la carpeta la ultima version del codigo de la estructura de la base de datos (```schema.sql```).
+3. Tambien hay un archivo con una poblacion inicial (```poblacion.sql```).
+4. La base de datos debe llamarse ```recreu```.
+
+
+## Configuracion de Glassfish
+
+Crear la siguiente Pool en Glassfish
 
 ```
 JDBC/recreu_pool
 ```
-
-# Manual de uso
 
 ## Usuario
 
