@@ -32,7 +32,34 @@ public class UsuarioService {
 		return usuarioEJB.findAll();
 	}
 	
+	
+	@POST
+	@Path("/login")
+	@Produces({"application/xml", "application/json"})
+	public Response login(Usuario login){
 		
+		String username = login.getCorreo();
+		String password = login.getPassword();
+		
+		// Pasar a minusculas y eliminar espacios extra
+		username = username.toLowerCase().trim();
+		
+		// Si cumple con el patron xxx.xx@usach.cl
+		// entonces cortar la string en la arroba
+		if(username.matches("[a-z.]+@usach.cl")){
+			username = username.split("@")[0];
+		}
+		
+		Boolean respuesta = usuarioEJB.loginCorrecto(username, password);
+		
+		if(respuesta){
+			return Response.status(Status.OK).build();
+		}
+		
+		return Response.status(Status.BAD_REQUEST).entity("Nombre de usuario y/o contraseña incorrectos.").build();		
+	}
+	
+	
 	
 	@POST
 	@Produces({"application/xml", "application/json"})

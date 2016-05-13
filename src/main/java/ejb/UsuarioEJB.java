@@ -32,6 +32,20 @@ public class UsuarioEJB extends AbstractFacade<Usuario> implements UsuarioFacade
 				.size() > 0;
 
 	}
+	
+	
+	public boolean loginCorrecto(String nombreUsuario, String password){
+		
+		String hql = "SELECT u FROM Usuario u WHERE u.correo = :correo AND u.password = :password";
+		
+		return em.createQuery(hql)
+				.setParameter("correo", nombreUsuario)
+				.setParameter("password", password)
+				.setMaxResults(1)
+				.getResultList().size() == 1;
+
+	}
+	
 
 	@Override
 	protected EntityManager getEntityManager() {

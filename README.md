@@ -10,6 +10,31 @@ Pool ```JDBC/recreu_pool```
 
 ```GET /usuarios```
 
+
+### Login
+
+```POST /usuarios/login```
+
+Retorna codigo de estado ```200 (OK)``` en caso de login correcto, y en caso de login incorrecto, retorna otro codigo. El correo puede tener mayusculas y minusculas (no afecta), pero la password debe ser igual que como se registro.
+
+Alternativa #1: Sin incluir ```@usach.cl```
+
+```json
+{
+    "correo":"correo",
+    "password":"pass"
+}
+```
+
+Alternativa #2: Con ```@usach.cl```
+```json
+{
+    "correo":"correo@usach.cl",
+    "password":"pass"
+}
+```
+
+
 ### Registrar usuario
 
 ```POST /usuarios```
