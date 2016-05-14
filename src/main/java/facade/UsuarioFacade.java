@@ -29,6 +29,15 @@ public interface UsuarioFacade {
 	 * @return	Booleano si el login fue correcto o no
 	 */
 	public boolean loginCorrecto(String nombreUsuario, String password);
+	
+	
+	/**
+	 * Entrega una pagina de usuarios.
+	 * @param Numero con la ultima ID, para que asi la pagina contenga los tamanoPagina usuarios que vienen despues de esa ultima ID. Si el numero es 0, entonces entrega la primera pagina.
+	 * @param Numero con el tamano de la pagina
+	 * @return Lista de usuarios
+	 */
+	public List<Usuario> obtenerPagina(int ultimaId, int tamanoPagina);
 
 	public List<Usuario> findAll();
 

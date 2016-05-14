@@ -7,6 +7,8 @@ import java.sql.Timestamp;
 
 import javax.persistence.*;
 
+import util.Util;
+
 
 @Entity
 @Table(name="usuario")
@@ -16,14 +18,12 @@ public class Usuario implements Serializable {
 	@Id
 	@Column(name="usuario_id", unique=true, nullable=false) 	private int usuarioId;
 
-	@Column(name="correo", nullable=false, length=45) 	private String correo;
+	@Column(name="correo", nullable=false, length=45, updatable=false) 	private String correo;
 	@Column(name="password", nullable=false, length=45) 	private String password;
 	@Column(name="disponibilidad", nullable=false, insertable=false) private Boolean disponibilidad;
-	@Column(name="created_at", nullable=false, insertable=false) private Date createdAt;
-	@Column(name="last_sign_in", nullable=false, insertable=false) private Timestamp lastSignIn;
-	@Column(name="last_update", nullable=false, insertable=false) private Timestamp lastUpdate;
+	@Column(name="created_at", nullable=false, insertable=false, updatable=false) private Date createdAt;
+	@Column(name="last_update", nullable=false, insertable=false, updatable=false) private Timestamp lastUpdate;
 	
-
 	@Column(name="last_position_x", nullable=true, insertable=false) private Float lastPositionX;
 	@Column(name="last_position_y", nullable=true, insertable=false) private Float lastPositionY;
 	
@@ -44,6 +44,18 @@ public class Usuario implements Serializable {
 		
 	@ManyToOne @JoinColumn(name = "carrera_id", nullable=false) private Carrera carrera;
 	
+	
+	public void normalizarStrings(){
+		setCorreo(getCorreo().toLowerCase().trim());
+		setPrimerNombre(Util.normalizarNombre(getPrimerNombre()));
+		setSegundoNombre(Util.normalizarNombre(getSegundoNombre()));
+		setApellidoMaterno(Util.normalizarNombre(getApellidoMaterno()));
+		setApellidoPaterno(Util.normalizarNombre(getApellidoPaterno()));	
+	}
+	
+	public boolean correoFormatoCorrecto(){
+		return getCorreo().matches("[a-z.]+");
+	}
 	
 	
 	
@@ -82,29 +94,22 @@ public class Usuario implements Serializable {
 		this.disponibilidad = disponibilidad;
 	}
 
-	/*public Date getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
-	}*/
+	}
 
-	/*public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
-	}*/
-
-	public Timestamp getLastSignIn() {
-		return lastSignIn;
 	}
 
-	public void setLastSignIn(Timestamp lastSignIn) {
-		this.lastSignIn = lastSignIn;
-	}
 
-	/*public Timestamp getLastUpdate() {
+	public Timestamp getLastUpdate() {
 		return lastUpdate;
-	}*/
+	}
 
-	/*public void setLastUpdate(Timestamp lastUpdate) {
+	public void setLastUpdate(Timestamp lastUpdate) {
 		this.lastUpdate = lastUpdate;
-	}*/
+	}
 
 	public Float getLastPositionX() {
 		return lastPositionX;

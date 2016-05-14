@@ -9,15 +9,18 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import facade.UsuarioFacade;
 import model.Usuario;
 import util.StatusCodeExtra;
-import util.Util;
 
 @Path("/usuarios")
 public class UsuarioService {
@@ -27,12 +30,53 @@ public class UsuarioService {
 
 	
 	Logger logger = Logger.getLogger(UsuarioService.class.getName());
-	
+	/*
 	@GET
 	@Produces({"application/xml", "application/json"})
 	public List<Usuario> findAll(){
 		return usuarioEJB.findAll();
+	}*/
+	
+	
+	
+	@GET
+	@Produces({"application/xml", "application/json"})
+	public List<Usuario> findAll(@Context UriInfo ui){
+		
+		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
+		if(queryParams.containsKey("ultima_id") && queryParams.containsKey("mostrar")){
+			try{
+				
+				int id = Integer.parseInt(queryParams.get("ultima_id").get(0));
+				int cuantas = Integer.parseInt(queryParams.get("mostrar").get(0));				
+				
+				return usuarioEJB.obtenerPagina(id, cuantas);
+				
+			} catch(NumberFormatException e){
+				
+			}			
+		}
+		
+		
+		return usuarioEJB.findAll();
 	}
+	
+	
+	/*
+	@GET
+	@Path("hola")
+	@Produces({"application/xml", "application/json"})
+	public String obtenerPagina(@Context UriInfo ui ,@PathParam("ultima_id") Integer ultima_id, @PathParam("mostrar") Integer tamano_pagina){
+		
+		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
+		
+		return "Cantidad: " + queryParams.size();
+		
+		//return usuarioEJB.obtenerPagina(ultima_id, tamano_pagina);
+	}*/
+	
+	
+	
 	
 	
 	@POST
@@ -70,33 +114,29 @@ public class UsuarioService {
 	public Response registrarUsuario(Usuario nuevoUsuario){
 		
 		if(nuevoUsuario.getPassword().length() < 6) {
-			return Response.status(Status.FORBIDDEN).entity("La contraseña es demasiado corta.").build();
+			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity("La contraseña es demasiado corta.").build();
 		}
 		
 		if(nuevoUsuario.getFechaNacimiento() == null){
-			return Response.status(Status.FORBIDDEN).entity("Debe indicar fecha de nacimiento.").build();
+			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity("Debe indicar fecha de nacimiento.").build();
 		}
 		
 		if(nuevoUsuario.getSexo() == null){
-			return Response.status(Status.FORBIDDEN).entity("Debe indicar su sexo (masculino o femenino).").build();
+			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity("Debe indicar su sexo (masculino o femenino).").build();
 		}
 
 		// Normalizar strings (mayusculas, etc)		
-		nuevoUsuario.setCorreo(nuevoUsuario.getCorreo().toLowerCase().trim());
-		nuevoUsuario.setPrimerNombre(Util.normalizarNombre(nuevoUsuario.getPrimerNombre()));
-		nuevoUsuario.setSegundoNombre(Util.normalizarNombre(nuevoUsuario.getSegundoNombre()));
-		nuevoUsuario.setApellidoMaterno(Util.normalizarNombre(nuevoUsuario.getApellidoMaterno()));
-		nuevoUsuario.setApellidoPaterno(Util.normalizarNombre(nuevoUsuario.getApellidoPaterno()));	
+		nuevoUsuario.normalizarStrings();
 		
 		
 		// Si el correo tiene formato incorrecto
-		if(!nuevoUsuario.getCorreo().matches("[a-z.]+")){
+		if(!nuevoUsuario.correoFormatoCorrecto()){
 			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity("El correo debe tener solo letras y puntos. No incluir @usach.cl.").build();			
 		}
 		
 		// Si ya existe un usuario con el mismo correo
 		if(usuarioEJB.usuarioExiste(nuevoUsuario)){
-			return Response.status(Status.FORBIDDEN).entity("Ya existe un usuario con el correo "+nuevoUsuario.getCorreo()+"@usach.cl.").build();			
+			return Response.status(Status.BAD_REQUEST).entity("Ya existe un usuario con el correo "+nuevoUsuario.getCorreo()+"@usach.cl.").build();			
 		}
 		
 		usuarioEJB.create(nuevoUsuario);
@@ -104,6 +144,26 @@ public class UsuarioService {
 		return Response.status(Status.OK).build();
 
 	}
+	
+	
+	@PUT
+	@Produces({"application/xml", "application/json"})
+	@Consumes({ "application/xml", "application/json" })
+	public Response actualizarUsuario(Usuario usuario){		
+		
+		// Normalizar strings (mayusculas, etc)		
+		usuario.normalizarStrings();
+				
+
+		// Si el correo tiene formato incorrecto
+		if(!usuario.correoFormatoCorrecto()){
+			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity("El correo debe tener solo letras y puntos. No incluir @usach.cl.").build();			
+		}
+		
+		usuarioEJB.edit(usuario);		
+		return Response.status(Status.OK).build();
+	}
+	
 	
 	
 	@DELETE

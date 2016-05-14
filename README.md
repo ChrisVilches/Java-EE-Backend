@@ -8,9 +8,11 @@
 - [Configuracion de Glassfish](#configuracion-de-glassfish)
 - [Usuario](#usuario)
   * [Listar todos los usuarios](#listar-todos-los-usuarios)
+  * [Listar usuarios paginado](#listar-usuarios-paginado)
   * [Login](#login)
   * [Registrar usuario](#registrar-usuario)
   * [Eliminar usuario](#eliminar-usuario)
+  * [Editar usuario](#editar-usuario)
 
 <!-- tocstop -->
 
@@ -35,6 +37,17 @@ JDBC/recreu_pool
 ### Listar todos los usuarios
 
 ```GET /usuarios```
+
+### Listar usuarios paginado
+
+
+```GET /usuarios/?ultima_id={ultima_id}&mostrar={tamano_pagina}```
+
+Esto sirve para hacer algo similar a lo que hace Twitter, es decir, mostrar una porcion de la lista, y luego cuando se necesitan mas, se coloca en **ultima_id** la ultima ID de la pagina actual, y el numero de nuevos elementos que se quieren obtener (**tamano_pagina**). Por ejemplo si la ultima id fue 10, y se quieren obtener 3 nuevos elementos, los elementos que se retornan tienen las ids 9, 8 y 7 (asumiendo que estan ordenadas y no hay huecos, aunque funciona bien incluso si los hubiera).
+
+
+1. **ultima_id** es la ultima ID de la pagina anterior. Para mostrar la primera pagina, dejarla con valor 0.
+2. **tamano_pagina** cantidad de resultados en la pagina.
 
 
 ### Login
@@ -108,3 +121,19 @@ Los demas atributos (```disponibilidad```, ```last_update```, etc) no se inserta
 ```DELETE /usuarios/{id}```
 
 Si lo elimina exitosamente, retorna codigo de estado ```200 (OK)```, y retorna codigo de error en caso que el usuario no existe.
+
+### Editar usuario
+
+```PUT /usuarios```
+
+**Resumen**: Enviar como JSON el mismo objeto, pero con atributos extra (para agregar atributos que antes eran ```null```), o eliminando atributos (para que ahora sean ```null```), y los atributos pueden tener valores distintos para modificarlos en la BD.
+
+Se puede modificar un usuario existente, por ejemplo, para agregarle intereses, o URLs de Instagram, Facebook, Twitter, o para modificar cualquier cosa.
+
+Por ejemplo, inicialmente un usuario podria no tener el atributo ```"urlInstagram": "..."``` en su JSON (eso es porque en la BD seria ```null```). Si se quiere agregar una URL de instagram, lo que se debe hacer en ese caso, es agregar el atributo a su JSON, y enviarlo a la URL usando ```PUT```. Notese que el JSON a enviar, debe contener todos los atributos, incluso si solo se quiere modificar uno.
+
+Tambien se puede eliminar el atributo de la URL de instagram, y nuevamente enviar el JSON, lo cual eliminaria su URL de instagram (la pondria en ```null```).
+
+Para editar la carrera, basta con modificar la ID de la carrera, y no los otros atributos (ya que son ignorados).
+
+Los atributos ```created_at``` y ```last_update``` son ignorados.

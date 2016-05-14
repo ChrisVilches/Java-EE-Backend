@@ -3,8 +3,12 @@ package facade;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import model.Usuario;
 
 /*
  * Implementa CRUD basico de un recurso T
@@ -32,6 +36,34 @@ public abstract class AbstractFacade<T> {
 	public void remove(T entity) {
 		getEntityManager().remove(getEntityManager().merge(entity));
 	}
+	
+	/*
+	 * Entrega la pagina de tamano "tamanoPagina" que viene despues de la "ultimaId"
+	 * Si la ultima ID es 0, entonces entrega la primera pagina.
+	 */
+	protected List<T> obtenerPagina(int ultimaId, int tamanoPagina, String idAttributeName){
+
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<T> query = cb.createQuery(entityClass);		
+		Root<T> t = query.from(entityClass);
+		TypedQuery<T> tq;
+					
+		if(tamanoPagina < 1) tamanoPagina = 1;		
+		
+		if(ultimaId > 0){			
+			query.where(cb.lessThan(t.<Integer> get(idAttributeName), ultimaId));			
+		}		
+		
+		query.orderBy(cb.desc(t.<Integer> get(idAttributeName)));	
+		
+		tq = getEntityManager().createQuery(query);
+		
+		tq.setMaxResults(tamanoPagina);
+		return tq.getResultList();
+		
+	}
+	
+	
 
 	public T find(Object id) {
 		return getEntityManager().find(entityClass, id);

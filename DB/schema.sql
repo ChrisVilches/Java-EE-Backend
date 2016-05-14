@@ -24,7 +24,6 @@ CREATE TABLE IF NOT EXISTS `recreu`.`usuario` (
   `correo` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_sign_in` TIMESTAMP NOT NULL,
   `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `last_position_x` FLOAT NULL,
   `last_position_y` FLOAT NULL,
@@ -102,7 +101,6 @@ CREATE TABLE IF NOT EXISTS `recreu`.`administrador` (
   `fecha_nacimiento` DATE NOT NULL,
   `sexo` TINYINT(1) NOT NULL DEFAULT true,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_sign_in` TIMESTAMP NOT NULL,
   `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `es_activo` TINYINT(1) NOT NULL DEFAULT true,
   PRIMARY KEY (`administrador_id`))

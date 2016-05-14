@@ -1,5 +1,7 @@
 package ejb;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,6 +35,7 @@ public class UsuarioEJB extends AbstractFacade<Usuario> implements UsuarioFacade
 
 	}
 	
+		
 	
 	public boolean loginCorrecto(String nombreUsuario, String password){
 		
@@ -46,10 +49,19 @@ public class UsuarioEJB extends AbstractFacade<Usuario> implements UsuarioFacade
 
 	}
 	
+	
+	@Override
+	public List<Usuario> obtenerPagina(int ultimaId, int tamanoPagina) {
+		return obtenerPagina(ultimaId, tamanoPagina, "usuarioId");
+	}
+		
+	
 
 	@Override
 	protected EntityManager getEntityManager() {
 		return this.em;
 	}
+
+	
 
 }
