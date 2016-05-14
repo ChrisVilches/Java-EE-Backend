@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `recreu`.`actividad` (
   `fecha_inicio` DATETIME NOT NULL,
   `duracion_estimada` TIME NULL,
   `es_activo` TINYINT(1) NOT NULL DEFAULT true,
+  `personas_maximas` INT NULL,
   PRIMARY KEY (`actividad_id`),
   INDEX `fk_actividad_1_idx` (`tipo_id` ASC),
   CONSTRAINT `fk_actividad_1`

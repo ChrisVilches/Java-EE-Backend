@@ -22,6 +22,7 @@ public class Actividad implements Serializable {
 	@Column(name="requerimientos_actividad", nullable=true, length=128) 	private String requerimientosActividad;
 	@Column(name="ubicacion_actividad_x", nullable=true) 	private Float ubicacionActividadX;
 	@Column(name="ubicacion_actividad_y", nullable=true) 	private Float ubicacionActividadY;
+	@Column(name="personas_maximas", nullable=true) 	private Integer personasMaximas;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="fecha_inicio", nullable=false) 	private Date fechaInicio;
@@ -95,8 +96,14 @@ public class Actividad implements Serializable {
 	}
 	public Actividad() {
 	}
-
-
+	public Integer getPersonasMaximas() {
+		return personasMaximas;
+	}
+	public void setPersonasMaximas(Integer personasMaximas) {
+		this.personasMaximas = personasMaximas;
+	}
+	
+	
 
 	@Override
 	public boolean equals(Object a){

@@ -8,6 +8,7 @@
 - [Configuracion de Glassfish](#configuracion-de-glassfish)
 - [Usuario](#usuario)
   * [Listar todos los usuarios](#listar-todos-los-usuarios)
+  * [Obtener un usuario por su ID](#obtener-un-usuario-por-su-id)
   * [Listar usuarios paginado](#listar-usuarios-paginado)
   * [Login](#login)
   * [Registrar usuario](#registrar-usuario)
@@ -15,6 +16,7 @@
   * [Editar usuario](#editar-usuario)
 - [Actividad](#actividad)
   * [Listar todas las actividades](#listar-todas-las-actividades)
+  * [Obtener actividad por su ID](#obtener-actividad-por-su-id)
   * [Agregar actividad](#agregar-actividad)
 
 <!-- tocstop -->
@@ -40,6 +42,10 @@ JDBC/recreu_pool
 ### Listar todos los usuarios
 
 ```GET /usuarios```
+
+### Obtener un usuario por su ID
+
+```GET /usuarios/{usuario_id}```
 
 ### Listar usuarios paginado
 
@@ -148,6 +154,11 @@ Los atributos ```created_at``` y ```last_update``` son ignorados.
 ### Listar todas las actividades
 
 ```GET /actividades```
+
+### Obtener actividad por su ID
+
+```GET /actividades/{actividad_id}```
+
 
 ### Agregar actividad
 

@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
@@ -51,11 +52,24 @@ public class ActividadService {
 	}
 	
 	
+	
+	@GET
+	@Path("{actividad_id: [0-9]+}")
+	@Produces({"application/xml", "application/json"})
+	public Response find(@PathParam("actividad_id") Integer actividad_id){				
+		Actividad a = actividadEJB.find(actividad_id);
+		if(a == null){
+			return Response.status(Status.BAD_REQUEST).entity("Actividad id="+actividad_id+" no encontrada.").build();		
+		}		
+		return Response.status(Status.OK).entity(a).build();		
+	}
+	
+	
 
 	
 	@POST
 	@Consumes({ "application/xml", "application/json" })
-	public Response registrarUsuario(Actividad nuevaActividad){		
+	public Response crearActividad(Actividad nuevaActividad){		
 		actividadEJB.create(nuevaActividad);		
 		return Response.status(Status.OK).build();
 	}

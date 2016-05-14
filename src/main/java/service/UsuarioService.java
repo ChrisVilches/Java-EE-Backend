@@ -54,6 +54,19 @@ public class UsuarioService {
 	}
 	
 	
+	
+	@GET
+	@Path("{usuario_id: [0-9]+}")
+	@Produces({"application/xml", "application/json"})
+	public Response find(@PathParam("usuario_id") Integer usuario_id){				
+		Usuario u = usuarioEJB.find(usuario_id);
+		if(u == null){
+			return Response.status(Status.BAD_REQUEST).entity("Usuario id="+usuario_id+" no encontrado.").build();		
+		}		
+		return Response.status(Status.OK).entity(u).build();		
+	}
+	
+	
 
 	
 	
