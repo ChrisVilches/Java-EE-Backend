@@ -92,7 +92,8 @@ El formato del JSON debe ser:
 	"correo":"correo.sin.arroba.usach",
 	"password":"pass.minimo.6.caracteres",
 	"fechaNacimiento":"1991-10-24",	
-	"sexo": true
+	"sexo": true,
+	"esAdministrador": false
 }
 ```
 
