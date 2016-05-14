@@ -13,6 +13,9 @@
   * [Registrar usuario](#registrar-usuario)
   * [Eliminar usuario](#eliminar-usuario)
   * [Editar usuario](#editar-usuario)
+- [Actividad](#actividad)
+  * [Listar todas las actividades](#listar-todas-las-actividades)
+  * [Agregar actividad](#agregar-actividad)
 
 <!-- tocstop -->
 
@@ -47,7 +50,7 @@ Esto sirve para hacer algo similar a lo que hace Twitter, es decir, mostrar una 
 
 
 1. **ultima_id** es la ultima ID de la pagina anterior. Para mostrar la primera pagina, dejarla con valor 0.
-2. **tamano_pagina** cantidad de resultados en la pagina.
+2. **tamano_pagina** cantidad de resultados que se quieren obtener.
 
 
 ### Login
@@ -137,3 +140,34 @@ Tambien se puede eliminar el atributo de la URL de instagram, y nuevamente envia
 Para editar la carrera, basta con modificar la ID de la carrera, y no los otros atributos (ya que son ignorados).
 
 Los atributos ```created_at``` y ```last_update``` son ignorados.
+
+
+## Actividad
+
+### Listar todas las actividades
+
+```GET /actividades```
+
+### Agregar actividad
+
+```POST /actividades```
+
+Ejemplo de json:
+
+```json
+{
+	"cuerpoActividad": "Cuerpo actividad 7",
+	"duracionEstimada": "02:01:15",
+	"fechaInicio": "2016-05-02T08:15:03-03:00",
+	"requerimientosActividad": "Requerimientos actividad 7",
+	"tipo": {
+		"tipoId": 34
+	},
+	"tituloActividad": "Titulo actividad 7",
+	"ubicacionActividadX": 8,
+	"ubicacionActividadY": 552
+}
+```
+
+**Nota**: En fecha de inicio hay un ```-03:00```. Esto se debe a que Chile se encuentra -3 horas desde Londres. Esto se puede omitir, y colocar solamente ```2016-05-02T08:15:03```. (Preferiblemente utilizar alguna funcion prefabricada que genere fechas y/o horas)
+

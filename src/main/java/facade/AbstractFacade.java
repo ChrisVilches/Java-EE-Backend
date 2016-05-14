@@ -7,8 +7,8 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Selection;
 
-import model.Usuario;
 
 /*
  * Implementa CRUD basico de un recurso T
@@ -69,14 +69,16 @@ public abstract class AbstractFacade<T> {
 		return getEntityManager().find(entityClass, id);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<T> findAll() {
-		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+		CriteriaQuery<T> cq = (CriteriaQuery<T>)getEntityManager().getCriteriaBuilder().createQuery();
 		cq.select(cq.from(entityClass));
 		return getEntityManager().createQuery(cq).getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<T> findRange(int[] range) {
-		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+		CriteriaQuery<T> cq = (CriteriaQuery<T>)getEntityManager().getCriteriaBuilder().createQuery();
 		cq.select(cq.from(entityClass));
 		Query q = getEntityManager().createQuery(cq);
 		q.setMaxResults(range[1] - range[0] + 1);
@@ -84,10 +86,11 @@ public abstract class AbstractFacade<T> {
 		return q.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	public int count() {
-		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+		CriteriaQuery<T> cq = (CriteriaQuery<T>)getEntityManager().getCriteriaBuilder().createQuery();
 		Root<T> rt = cq.from(entityClass);
-		cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+		cq.select((Selection<T>)getEntityManager().getCriteriaBuilder().count(rt));
 		Query q = getEntityManager().createQuery(cq);
 		return ((Long) q.getSingleResult()).intValue();
 	}

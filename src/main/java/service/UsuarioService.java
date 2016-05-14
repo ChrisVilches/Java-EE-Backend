@@ -30,13 +30,6 @@ public class UsuarioService {
 
 	
 	Logger logger = Logger.getLogger(UsuarioService.class.getName());
-	/*
-	@GET
-	@Produces({"application/xml", "application/json"})
-	public List<Usuario> findAll(){
-		return usuarioEJB.findAll();
-	}*/
-	
 	
 	
 	@GET
@@ -55,28 +48,13 @@ public class UsuarioService {
 			} catch(NumberFormatException e){
 				
 			}			
-		}
-		
+		}	
 		
 		return usuarioEJB.findAll();
 	}
 	
 	
-	/*
-	@GET
-	@Path("hola")
-	@Produces({"application/xml", "application/json"})
-	public String obtenerPagina(@Context UriInfo ui ,@PathParam("ultima_id") Integer ultima_id, @PathParam("mostrar") Integer tamano_pagina){
-		
-		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
-		
-		return "Cantidad: " + queryParams.size();
-		
-		//return usuarioEJB.obtenerPagina(ultima_id, tamano_pagina);
-	}*/
-	
-	
-	
+
 	
 	
 	@POST
@@ -180,6 +158,17 @@ public class UsuarioService {
 		usuarioEJB.remove(usuarioABorrar);		
 		return Response.status(Status.OK).build();
 	}
+	
+	
+	
+	@GET
+	@Path("count")
+	@Produces("text/html")
+	public String count(){		
+		return "Cantidad de usuarios: "+usuarioEJB.count();
+	}
+	
+	
 	
 
 

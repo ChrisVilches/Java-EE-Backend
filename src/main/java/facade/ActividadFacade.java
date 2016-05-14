@@ -21,6 +21,8 @@ public interface ActividadFacade {
 	public List<Actividad> findAll();
 
 	public List<Actividad> findRange(int[] range);
+	
+	public List<Actividad> obtenerPagina(int ultimaId, int tamanoPagina);
 
 	public int count();
 

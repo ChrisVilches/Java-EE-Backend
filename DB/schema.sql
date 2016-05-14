@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `recreu`.`usuario` (
   `url_instagram` VARCHAR(128) NULL,
   `url_twitter` VARCHAR(128) NULL,
   `carrera_id` INT NULL,
+  `es_administrador` TINYINT(1) NOT NULL DEFAULT false,
   PRIMARY KEY (`usuario_id`),
   UNIQUE INDEX `correo_UNIQUE` (`correo` ASC),
   INDEX `fk_usuario_1_idx` (`carrera_id` ASC),
@@ -63,12 +64,28 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `recreu`.`tipo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `recreu`.`tipo` (
+  `tipo_id` INT NOT NULL AUTO_INCREMENT,
+  `categoria_id` INT NOT NULL,
+  `tipo` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`tipo_id`),
+  INDEX `fk_tipo_actividad_1_idx` (`categoria_id` ASC),
+  CONSTRAINT `fk_tipo_actividad_1`
+    FOREIGN KEY (`categoria_id`)
+    REFERENCES `recreu`.`categoria` (`categoria_id`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `recreu`.`actividad`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `recreu`.`actividad` (
   `actividad_id` INT NOT NULL AUTO_INCREMENT,
-  `categoria_id` INT NOT NULL,
-  `tipo_actividad` VARCHAR(50) NOT NULL,
+  `tipo_id` INT NOT NULL,
   `titulo_actividad` VARCHAR(50) NOT NULL,
   `cuerpo_actividad` VARCHAR(1028) NOT NULL,
   `requerimientos_actividad` VARCHAR(128) NULL,
@@ -78,32 +95,12 @@ CREATE TABLE IF NOT EXISTS `recreu`.`actividad` (
   `duracion_estimada` TIME NULL,
   `es_activo` TINYINT(1) NOT NULL DEFAULT true,
   PRIMARY KEY (`actividad_id`),
-  INDEX `fk_actividad_1_idx` (`categoria_id` ASC),
+  INDEX `fk_actividad_1_idx` (`tipo_id` ASC),
   CONSTRAINT `fk_actividad_1`
-    FOREIGN KEY (`categoria_id`)
-    REFERENCES `recreu`.`categoria` (`categoria_id`)
+    FOREIGN KEY (`tipo_id`)
+    REFERENCES `recreu`.`tipo` (`tipo_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `recreu`.`administrador`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `recreu`.`administrador` (
-  `administrador_id` INT NOT NULL AUTO_INCREMENT,
-  `correo` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
-  `primer_nombre` VARCHAR(45) NOT NULL,
-  `segundo_nombre` VARCHAR(45) NULL,
-  `apellido_paterno` VARCHAR(45) NULL,
-  `apellido_materno` VARCHAR(45) NULL,
-  `fecha_nacimiento` DATE NOT NULL,
-  `sexo` TINYINT(1) NOT NULL DEFAULT true,
-  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `es_activo` TINYINT(1) NOT NULL DEFAULT true,
-  PRIMARY KEY (`administrador_id`))
 ENGINE = InnoDB;
 
 
@@ -141,9 +138,9 @@ CREATE TABLE IF NOT EXISTS `recreu`.`reporte` (
     ON UPDATE CASCADE,
   CONSTRAINT `fk_reporte_4`
     FOREIGN KEY (`administrador_id`)
-    REFERENCES `recreu`.`administrador` (`administrador_id`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE)
+    REFERENCES `recreu`.`usuario` (`usuario_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -249,23 +246,6 @@ CREATE TABLE IF NOT EXISTS `recreu`.`participacion` (
   CONSTRAINT `fk_participacion_2`
     FOREIGN KEY (`actividad_id`)
     REFERENCES `recreu`.`actividad` (`actividad_id`)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `recreu`.`tipo`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `recreu`.`tipo` (
-  `tipo_id` INT NOT NULL AUTO_INCREMENT,
-  `categoria_id` INT NOT NULL,
-  `tipo` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`tipo_id`),
-  INDEX `fk_tipo_actividad_1_idx` (`categoria_id` ASC),
-  CONSTRAINT `fk_tipo_actividad_1`
-    FOREIGN KEY (`categoria_id`)
-    REFERENCES `recreu`.`categoria` (`categoria_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

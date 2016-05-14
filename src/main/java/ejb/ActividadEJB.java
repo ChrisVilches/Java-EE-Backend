@@ -1,5 +1,7 @@
 package ejb;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,5 +25,11 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 	protected EntityManager getEntityManager() {
 		return this.em;
 	}
+	
+	@Override
+	public List<Actividad> obtenerPagina(int ultimaId, int tamanoPagina) {
+		return obtenerPagina(ultimaId, tamanoPagina, "actividadId");
+	}
+		
 
 }

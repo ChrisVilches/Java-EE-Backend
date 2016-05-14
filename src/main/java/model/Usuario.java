@@ -37,6 +37,8 @@ public class Usuario implements Serializable {
 	@Column(name="fecha_nacimiento", nullable=false) private Date fechaNacimiento;
 	@Column(name="sexo", nullable=false) private Boolean sexo;
 	
+	@Column(name="es_administrador", nullable=false) private Boolean esAdministrador;
+	
 	@Column(name="intereses", nullable=true) 	private String intereses;	
 	@Column(name="url_facebook", nullable=true, length=128) 	private String urlFacebook;
 	@Column(name="url_instagram", nullable=true, length=128) 	private String urlInstagram;
@@ -190,6 +192,17 @@ public class Usuario implements Serializable {
 	public void setSexo(Boolean sexo) {
 		this.sexo = sexo;
 	}
+	
+	
+	public Boolean getEsAdministrador() {
+		return esAdministrador;
+	}
+
+	public void setEsAdministrador(Boolean esAdministrador) {
+		this.esAdministrador = esAdministrador;
+	}
+	
+	
 
 	public String getIntereses() {
 		return intereses;
