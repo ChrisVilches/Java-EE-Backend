@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response.Status;
 
 import facade.ActividadFacade;
 import model.Actividad;
+import model.Usuario;
 
 
 @Path("/actividades")
@@ -49,6 +50,15 @@ public class ActividadService {
 		}	
 		
 		return actividadEJB.findAll();
+	}
+	
+	
+	@GET
+	@Path("{actividad_id}/usuarios")
+	@Produces({"application/xml", "application/json"})
+	public List<Usuario> obtenerParticipantes(@PathParam("actividad_id") Integer actividad_id){						
+		Actividad a = actividadEJB.find(actividad_id);
+		return a.getParticipantes();		
 	}
 	
 	

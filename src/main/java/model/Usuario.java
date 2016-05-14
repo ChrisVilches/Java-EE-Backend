@@ -4,6 +4,7 @@ package model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -46,6 +47,11 @@ public class Usuario implements Serializable {
 		
 	@ManyToOne @JoinColumn(name = "carrera_id", nullable=false) private Carrera carrera;
 	
+	@OneToMany(mappedBy="organizador", cascade=CascadeType.ALL, fetch = FetchType.LAZY) private List<Actividad> actividadesOrganizadas;
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "participantes")
+	private List<Actividad> actividades;
+
 	
 	public void normalizarStrings(){
 		setCorreo(getCorreo().toLowerCase().trim());
@@ -61,6 +67,14 @@ public class Usuario implements Serializable {
 	
 	
 	
+	public List<Actividad> getActividades() {
+		return actividades;
+	}
+	
+	public List<Actividad> getActividadesOrganizadas(){
+		return this.actividadesOrganizadas;
+	}
+
 	public Usuario() {
 	}
 

@@ -18,7 +18,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import facade.ActividadFacade;
 import facade.UsuarioFacade;
+import model.Actividad;
 import model.Usuario;
 import util.StatusCodeExtra;
 
@@ -27,6 +29,10 @@ public class UsuarioService {
 	
 	@EJB 
 	UsuarioFacade usuarioEJB;
+	
+	@EJB 
+	ActividadFacade actividadEJB;
+	
 
 	
 	Logger logger = Logger.getLogger(UsuarioService.class.getName());
@@ -67,7 +73,61 @@ public class UsuarioService {
 	}
 	
 	
+	@GET
+	@Path("{usuario_id}/actividades")
+	@Produces({"application/xml", "application/json"})
+	public List<Actividad> obtenerActividades(@PathParam("usuario_id") Integer usuario_id, @Context UriInfo ui){		
+		
+		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
+		Usuario u = usuarioEJB.find(usuario_id);
+		
+		if(queryParams.containsKey("organizador")){
+			// Si tiene el parametro "organizador" significa que se busaca las actividades que organizo este usuario			
+			return u.getActividadesOrganizadas();			
+		}	
+		
+		return u.getActividades();
+	}
 
+	
+	@POST
+	@Path("{usuario_id}/actividades/{actividad_id}")
+	@Produces({"application/xml", "application/json"})
+	public Response agregarParticipacion(@PathParam("usuario_id") Integer usuario_id, @PathParam("actividad_id") Integer actividad_id){
+		
+		Usuario u = usuarioEJB.find(usuario_id);
+		Actividad a = actividadEJB.find(actividad_id);
+		
+		if(u==null) return Response.status(Status.BAD_REQUEST).entity("Error al agregar participacion de usuario en actividad. Usuario no existe.").build();	
+		if(a==null) return Response.status(Status.BAD_REQUEST).entity("Error al agregar participacion de usuario en actividad. Actividad no existe.").build();	
+		
+		u.getActividades().add(a);
+		a.getParticipantes().add(u);
+		usuarioEJB.edit(u);
+		actividadEJB.edit(a);
+		
+		return Response.status(Status.OK).build();		
+	}
+	
+	@DELETE
+	@Path("{usuario_id}/actividades/{actividad_id}")
+	public Response eliminarParticipacion(@PathParam("usuario_id") Integer usuario_id, @PathParam("actividad_id") Integer actividad_id){
+		
+		Usuario u = usuarioEJB.find(usuario_id);
+		Actividad a = actividadEJB.find(actividad_id);
+		
+		if(u==null) return Response.status(Status.BAD_REQUEST).entity("Error al eliminar participacion de usuario en actividad. Usuario no existe.").build();	
+		if(a==null) return Response.status(Status.BAD_REQUEST).entity("Error al eliminar participacion de usuario en actividad. Actividad no existe.").build();	
+				
+		u.getActividades().remove(a);
+		a.getParticipantes().remove(u);
+		
+		usuarioEJB.edit(u);
+		actividadEJB.edit(a);
+			
+		return Response.status(Status.OK).build();	
+		
+	}
 	
 	
 	@POST
@@ -158,7 +218,7 @@ public class UsuarioService {
 	
 	
 	@DELETE
-	@Path("{usuario_id}")
+	@Path("{usuario_id: [0-9]+}")
 	@Produces({"application/xml", "application/json"})
 	public Response eliminarUsuario(@PathParam("usuario_id") Integer usuario_id){		
 		

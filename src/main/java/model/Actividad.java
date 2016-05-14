@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.sql.Time;
 
 import javax.persistence.*;
@@ -31,9 +32,25 @@ public class Actividad implements Serializable {
 		
 	@ManyToOne @JoinColumn(name = "tipo_id", nullable=false) private Tipo tipo;
 	
-		
+	@ManyToOne @JoinColumn(name = "organizador_id", nullable=false) private Usuario organizador;
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "usuario_actividad", joinColumns = { @JoinColumn(name = "actividad_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "usuario_id") })
+	private List<Usuario> participantes;
 
-
+	
+	
+	
+	public List<Usuario> getParticipantes() {
+		return participantes;
+	}
+	public Usuario getOrganizador() {
+		return organizador;
+	}
+	public void setOrganizador(Usuario organizador) {
+		this.organizador = organizador;
+	}
 	public int getActividadId() {
 		return actividadId;
 	}

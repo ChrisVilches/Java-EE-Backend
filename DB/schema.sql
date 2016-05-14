@@ -95,11 +95,18 @@ CREATE TABLE IF NOT EXISTS `recreu`.`actividad` (
   `duracion_estimada` TIME NULL,
   `es_activo` TINYINT(1) NOT NULL DEFAULT true,
   `personas_maximas` INT NULL,
+  `organizador_id` INT NOT NULL,
   PRIMARY KEY (`actividad_id`),
   INDEX `fk_actividad_1_idx` (`tipo_id` ASC),
+  INDEX `fk_actividad_2_idx` (`organizador_id` ASC),
   CONSTRAINT `fk_actividad_1`
     FOREIGN KEY (`tipo_id`)
     REFERENCES `recreu`.`tipo` (`tipo_id`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_actividad_2`
+    FOREIGN KEY (`organizador_id`)
+    REFERENCES `recreu`.`usuario` (`usuario_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -140,8 +147,8 @@ CREATE TABLE IF NOT EXISTS `recreu`.`reporte` (
   CONSTRAINT `fk_reporte_4`
     FOREIGN KEY (`administrador_id`)
     REFERENCES `recreu`.`usuario` (`usuario_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -228,15 +235,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `recreu`.`participacion`
+-- Table `recreu`.`usuario_actividad`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `recreu`.`participacion` (
-  `participacion_id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `recreu`.`usuario_actividad` (
   `usuario_id` INT NOT NULL,
   `actividad_id` INT NOT NULL,
-  `es_organizador` TINYINT(1) NOT NULL DEFAULT false,
-  `es_activo` TINYINT(1) NOT NULL DEFAULT true,
-  PRIMARY KEY (`participacion_id`),
   INDEX `fk_participacion_1_idx` (`usuario_id` ASC),
   INDEX `fk_participacion_2_idx` (`actividad_id` ASC),
   CONSTRAINT `fk_participacion_1`

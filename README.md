@@ -12,12 +12,18 @@
   * [Listar usuarios paginado](#listar-usuarios-paginado)
   * [Login](#login)
   * [Registrar usuario](#registrar-usuario)
+  * [Listar actividades en las que participa el usuario](#listar-actividades-en-las-que-participa-el-usuario)
+  * [Listar actividades que organizo un usuario](#listar-actividades-que-organizo-un-usuario)
+  * [Agregar participacion de usuario en actividad](#agregar-participacion-de-usuario-en-actividad)
+  * [Eliminar participacion de usuario en actividad](#eliminar-participacion-de-usuario-en-actividad)
   * [Eliminar usuario](#eliminar-usuario)
   * [Editar usuario](#editar-usuario)
 - [Actividad](#actividad)
   * [Listar todas las actividades](#listar-todas-las-actividades)
+  * [Listar actividades de forma paginada](#listar-actividades-de-forma-paginada)
   * [Obtener actividad por su ID](#obtener-actividad-por-su-id)
   * [Agregar actividad](#agregar-actividad)
+  * [Listar usuarios que participan en una actividad](#listar-usuarios-que-participan-en-una-actividad)
 
 <!-- tocstop -->
 
@@ -126,9 +132,31 @@ En caso de querer incorporar la carrera, se pone de esta forma
 
 Los demas atributos (```disponibilidad```, ```last_update```, etc) no se insertan al registrar usuario (se ignoran).
 
+
+### Listar actividades en las que participa el usuario
+
+```GET /usuarios/{usuario_id}/actividades```
+
+
+### Listar actividades que organizo un usuario
+
+```GET /usuarios/{usuario_id}/actividades/?organizador```
+
+
+### Agregar participacion de usuario en actividad
+
+```POST /usuarios/{usuario_id}/actividades/{actividad_id}```
+
+### Eliminar participacion de usuario en actividad
+
+```DELETE /usuarios/{usuario_id}/actividades/{actividad_id}```
+
+
+
+
 ### Eliminar usuario
 
-```DELETE /usuarios/{id}```
+```DELETE /usuarios/{usuario_id}```
 
 Si lo elimina exitosamente, retorna codigo de estado ```200 (OK)```, y retorna codigo de error en caso que el usuario no existe.
 
@@ -155,9 +183,19 @@ Los atributos ```created_at``` y ```last_update``` son ignorados.
 
 ```GET /actividades```
 
+
+### Listar actividades de forma paginada
+
+```GET /actividades/?ultima_id={ultima_id}&mostrar={tamano_pagina}```
+
+Para entender que significan estos parametros, ver [Listar usuarios paginado](#listar-usuarios-paginado).
+
+
 ### Obtener actividad por su ID
 
 ```GET /actividades/{actividad_id}```
+
+
 
 
 ### Agregar actividad
@@ -173,9 +211,12 @@ Ejemplo de json:
 	"fechaInicio": "2016-05-02T08:15:03-03:00",
 	"requerimientosActividad": "Requerimientos actividad 7",
 	"tipo": {
-		"tipoId": 34
+		"tipoId": 13
 	},
 	"tituloActividad": "Titulo actividad 7",
+	"organizador":{
+		"usuarioId": 3
+	},
 	"ubicacionActividadX": 8,
 	"ubicacionActividadY": 552
 }
@@ -183,3 +224,6 @@ Ejemplo de json:
 
 **Nota**: En fecha de inicio hay un ```-03:00```. Esto se debe a que Chile se encuentra -3 horas desde Londres. Esto se puede omitir, y colocar solamente ```2016-05-02T08:15:03```. (Preferiblemente utilizar alguna funcion prefabricada que genere fechas y/o horas)
 
+### Listar usuarios que participan en una actividad
+
+```GET /actividades/{actividad_id}/usuarios```
