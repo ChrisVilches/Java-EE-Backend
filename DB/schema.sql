@@ -12,7 +12,9 @@ CREATE TABLE IF NOT EXISTS `recreu`.`carrera` (
   `carrera_id` INT NOT NULL AUTO_INCREMENT,
   `nombre_carrera` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`carrera_id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_general_cs;
 
 
 -- -----------------------------------------------------
@@ -50,6 +52,8 @@ CREATE TABLE IF NOT EXISTS `recreu`.`usuario` (
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_general_cs
 PACK_KEYS = DEFAULT;
 
 
@@ -60,7 +64,9 @@ CREATE TABLE IF NOT EXISTS `recreu`.`categoria` (
   `categoria_id` INT NOT NULL AUTO_INCREMENT,
   `nombre_categoria` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`categoria_id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_general_cs;
 
 
 -- -----------------------------------------------------
@@ -77,7 +83,9 @@ CREATE TABLE IF NOT EXISTS `recreu`.`tipo` (
     REFERENCES `recreu`.`categoria` (`categoria_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_general_cs;
 
 
 -- -----------------------------------------------------
@@ -109,7 +117,9 @@ CREATE TABLE IF NOT EXISTS `recreu`.`actividad` (
     REFERENCES `recreu`.`usuario` (`usuario_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_general_cs;
 
 
 -- -----------------------------------------------------
@@ -149,7 +159,9 @@ CREATE TABLE IF NOT EXISTS `recreu`.`reporte` (
     REFERENCES `recreu`.`usuario` (`usuario_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_general_cs;
 
 
 -- -----------------------------------------------------
@@ -181,7 +193,9 @@ CREATE TABLE IF NOT EXISTS `recreu`.`calificacion` (
     REFERENCES `recreu`.`actividad` (`actividad_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_general_cs;
 
 
 -- -----------------------------------------------------
@@ -207,7 +221,9 @@ CREATE TABLE IF NOT EXISTS `recreu`.`comentario` (
     REFERENCES `recreu`.`actividad` (`actividad_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_general_cs;
 
 
 -- -----------------------------------------------------
@@ -231,7 +247,9 @@ CREATE TABLE IF NOT EXISTS `recreu`.`ban` (
     REFERENCES `recreu`.`actividad` (`actividad_id`)
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1
+COLLATE = latin1_general_cs;
 
 
 -- -----------------------------------------------------
