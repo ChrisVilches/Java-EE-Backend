@@ -126,7 +126,46 @@ INSERT INTO `recreu`.`actividad` (`actividad_id`, `organizador_id`,  `personas_m
 
 
 
+--
+--	Usuario_actividad
+--
 
 
 
 
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 1);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 5);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 18);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 20);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 21);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 25);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 5);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (2, 1);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (2, 2);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (2, 8);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (2, 9);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (2, 10);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (2, 12);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (2, 13);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (2, 18);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (2, 19);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (3, 2);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (3, 8);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (3, 9);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (3, 17);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (4, 5);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (4, 8);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (4, 9);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (4, 11);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (4, 17);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (4, 19);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (5, 5);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (5, 9);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (5, 21);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (5, 24);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (6, 21);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (6, 22);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (6, 23);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (7, 17);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (7, 18);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (7, 19);
