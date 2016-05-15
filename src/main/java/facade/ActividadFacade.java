@@ -1,9 +1,7 @@
 package facade;
 
 import java.util.List;
-
 import javax.ejb.Local;
-
 import model.Actividad;
 
 @Local
@@ -23,6 +21,8 @@ public interface ActividadFacade {
 	public List<Actividad> findRange(int[] range);
 	
 	public List<Actividad> obtenerPagina(int ultimaId, int tamanoPagina);
+	
+	public List<Actividad> actividadesSegunTipos(List<Integer> tiposIds);
 
 	public int count();
 

@@ -16,7 +16,7 @@ public class Actividad implements Serializable {
 	
 
 	@Id 
-	@Column(name="actividad_id", unique=true, nullable=false) private int actividadId;
+	@Column(name="actividad_id", unique=true, nullable=false) private Integer actividadId;
 	
 	@Column(name="titulo_actividad", nullable=false, length=50) 	private String tituloActividad;
 	@Column(name="cuerpo_actividad", nullable=true, length=1028) 	private String cuerpoActividad;
@@ -32,7 +32,7 @@ public class Actividad implements Serializable {
 		
 	@ManyToOne @JoinColumn(name = "tipo_id", nullable=false) private Tipo tipo;
 	
-	@ManyToOne @JoinColumn(name = "organizador_id", nullable=false) private Usuario organizador;
+	@ManyToOne @JoinColumn(name = "organizador_id", nullable=false, updatable=false) private Usuario organizador;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "usuario_actividad", joinColumns = { @JoinColumn(name = "actividad_id") }, inverseJoinColumns = {
@@ -51,10 +51,10 @@ public class Actividad implements Serializable {
 	public void setOrganizador(Usuario organizador) {
 		this.organizador = organizador;
 	}
-	public int getActividadId() {
+	public Integer getActividadId() {
 		return actividadId;
 	}
-	public void setActividadId(int actividadId) {
+	public void setActividadId(Integer actividadId) {
 		this.actividadId = actividadId;
 	}
 	public String getTituloActividad() {

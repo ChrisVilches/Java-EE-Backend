@@ -50,13 +50,6 @@ public class Carrera implements Serializable {
 		return usuarios;
 	}
 
-
-	/*public void setUsuarios(Set<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}*/
-	
-
-
 	@Override
 	public boolean equals(Object a){
 		return ((Carrera)a).carreraId == this.carreraId;

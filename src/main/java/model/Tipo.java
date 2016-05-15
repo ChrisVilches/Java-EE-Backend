@@ -24,8 +24,6 @@ public class Tipo implements Serializable {
 	public Tipo() {
 	}
 
-	
-
 
 	public int getTipoId() {
 		return tipoId;
@@ -39,6 +37,8 @@ public class Tipo implements Serializable {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+	
+		
 	public String getTipo() {
 		return tipo;
 	}

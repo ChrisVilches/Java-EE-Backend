@@ -18,7 +18,7 @@ public class CarreraService {
 	CarreraFacade CarreraEJB;
 
 	
-	Logger logger = Logger.getLogger(UsuarioService.class.getName());
+	Logger logger = Logger.getLogger(CarreraService.class.getName());
 	
 	@GET
 	@Produces({"application/xml", "application/json"})

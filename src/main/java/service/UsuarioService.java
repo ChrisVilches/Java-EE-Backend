@@ -37,7 +37,6 @@ public class UsuarioService {
 	
 	Logger logger = Logger.getLogger(UsuarioService.class.getName());
 	
-	
 	@GET
 	@Produces({"application/xml", "application/json"})
 	public List<Usuario> findAll(@Context UriInfo ui){
@@ -47,16 +46,17 @@ public class UsuarioService {
 			try{
 				
 				int id = Integer.parseInt(queryParams.get("ultima_id").get(0));
-				int cuantas = Integer.parseInt(queryParams.get("mostrar").get(0));				
+				int cuantas = Integer.parseInt(queryParams.get("mostrar").get(0));						
 				
 				return usuarioEJB.obtenerPagina(id, cuantas);
 				
 			} catch(NumberFormatException e){
-				
+				return null;
 			}			
-		}	
-		
+		}		
+			
 		return usuarioEJB.findAll();
+
 	}
 	
 	
@@ -85,7 +85,7 @@ public class UsuarioService {
 			// Si tiene el parametro "organizador" significa que se busaca las actividades que organizo este usuario			
 			return u.getActividadesOrganizadas();			
 		}	
-		
+	
 		return u.getActividades();
 	}
 

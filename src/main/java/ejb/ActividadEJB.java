@@ -20,6 +20,17 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 	public ActividadEJB() {
 		super(Actividad.class);
 	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Actividad> actividadesSegunTipos(List<Integer> tiposIds){
+		
+		String hql = "SELECT a FROM Actividad a WHERE a.tipo.tipoId in :tipos ORDER BY a.actividadId DESC";		
+	
+		return em.createQuery(hql)
+				.setParameter("tipos", tiposIds)
+				.getResultList();	
+	}
 
 	@Override
 	protected EntityManager getEntityManager() {

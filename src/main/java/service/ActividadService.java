@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -7,6 +8,7 @@ import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -19,6 +21,7 @@ import javax.ws.rs.core.Response.Status;
 import facade.ActividadFacade;
 import model.Actividad;
 import model.Usuario;
+import util.StatusCodeExtra;
 
 
 @Path("/actividades")
@@ -33,9 +36,36 @@ public class ActividadService {
 	
 	@GET
 	@Produces({"application/xml", "application/json"})
-	public List<Actividad> findAll(@Context UriInfo ui){
+	public List<Actividad> lista(@Context UriInfo ui){
 		
 		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
+		
+		/*
+		 * Peticion por lista de tipos ?tipos=1-2-3-4
+		 */
+		
+		
+		if(queryParams.containsKey("tipos")){
+			try{
+				
+				String[] tipos = queryParams.get("tipos").get(0).split("-");
+				ArrayList<Integer> tiposIds = new ArrayList<Integer>();
+				
+				for(int i=0; i<tipos.length; i++){ // Crear el arreglo de IDs
+					tiposIds.add(Integer.parseInt(tipos[i]));					
+				}
+				
+				return actividadEJB.actividadesSegunTipos(tiposIds);
+				
+			} catch(NumberFormatException e){
+				return null;
+			}			
+		}		
+		
+		/*
+		 * Peticion paginada
+		 */
+		
 		if(queryParams.containsKey("ultima_id") && queryParams.containsKey("mostrar")){
 			try{
 				
@@ -45,13 +75,18 @@ public class ActividadService {
 				return actividadEJB.obtenerPagina(id, cuantas);
 				
 			} catch(NumberFormatException e){
-				
+				return null;
 			}			
 		}	
+		
+		/*
+		 * Normal (lista completa)
+		 */
 		
 		return actividadEJB.findAll();
 	}
 	
+
 	
 	@GET
 	@Path("{actividad_id}/usuarios")
@@ -82,6 +117,20 @@ public class ActividadService {
 	public Response crearActividad(Actividad nuevaActividad){		
 		actividadEJB.create(nuevaActividad);		
 		return Response.status(Status.OK).build();
+	}
+	
+	
+	
+	@PUT
+	@Produces({"application/xml", "application/json"})
+	@Consumes({ "application/xml", "application/json" })
+	public Response editActividad(Actividad a){		
+		
+		if(a.getActividadId() == null) 
+			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).build();	
+						
+		actividadEJB.edit(a);
+		return Response.status(Status.OK).build();		
 	}
 	
 	

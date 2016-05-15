@@ -22,8 +22,13 @@
   * [Listar todas las actividades](#listar-todas-las-actividades)
   * [Listar actividades de forma paginada](#listar-actividades-de-forma-paginada)
   * [Obtener actividad por su ID](#obtener-actividad-por-su-id)
+  * [Obtener actividades que pertenecen a uno o mas tipos](#obtener-actividades-que-pertenecen-a-uno-o-mas-tipos)
   * [Agregar actividad](#agregar-actividad)
   * [Listar usuarios que participan en una actividad](#listar-usuarios-que-participan-en-una-actividad)
+  * [Editar actividad](#editar-actividad)
+- [Categoria](#categoria)
+  * [Listar todas las categorias](#listar-todas-las-categorias)
+  * [Listar los tipos pertenecientes a una categoria](#listar-los-tipos-pertenecientes-a-una-categoria)
 
 <!-- tocstop -->
 
@@ -164,7 +169,7 @@ Si lo elimina exitosamente, retorna codigo de estado ```200 (OK)```, y retorna c
 
 ```PUT /usuarios```
 
-**Resumen**: Enviar como JSON el mismo objeto, pero con atributos extra (para agregar atributos que antes eran ```null```), o eliminando atributos (para que ahora sean ```null```), y los atributos pueden tener valores distintos para modificarlos en la BD.
+**Resumen**: Enviar como JSON el mismo objeto, pero con atributos extra (para agregar atributos que antes eran ```null```), o eliminando atributos (para que ahora sean ```null```), y los atributos pueden tener valores distintos para modificarlos en la BD. En otras palabras, el JSON no "parcha" el objeto original, si no que lo sobreescribe completamente, por lo que si faltan atributos en el nuevo JSON, se escriben en la BD como nulo (si es que lo permite), en vez de dejar el valor original.
 
 Se puede modificar un usuario existente, por ejemplo, para agregarle intereses, o URLs de Instagram, Facebook, Twitter, o para modificar cualquier cosa.
 
@@ -194,6 +199,18 @@ Para entender que significan estos parametros, ver [Listar usuarios paginado](#l
 ### Obtener actividad por su ID
 
 ```GET /actividades/{actividad_id}```
+
+
+### Obtener actividades que pertenecen a uno o mas tipos
+
+**Lista de tipos**: Esta URL contiene el parametro ```tipos``` y su valor es una lista de IDs de tipos, separadas por un ```-```. En caso de usar esta consulta, se obtiene la **union**, y no la interseccion de los tipos (Utiliza la consulta del tipo ```where x in (1,2,3..)```). El formato de URL es:
+
+```GET /actividades/?tipos=1-2-3-4-5```
+
+**Solamente un tipo**: Similar al anterior, pero solo se coloca un numero.
+
+```GET /actividades/?tipos=3```
+
 
 
 
@@ -227,3 +244,39 @@ Ejemplo de json:
 ### Listar usuarios que participan en una actividad
 
 ```GET /actividades/{actividad_id}/usuarios```
+
+
+### Editar actividad
+
+```PUT /actividades/```
+
+Debe enviarse el JSON conteniendo la ID de la actividad, y los atributos que se quieran cambiar. El tipo se puede simplificar a solo su ID. El atributo organizador es ignorado, ya que no se puede modificar. Ejemplo:
+
+```json
+{
+    "actividadId": 4,
+    "cuerpoActividad": "Cuerpo actividad 4 Update",
+    "duracionEstimada": "02:00:10-03:00",
+    "esActivo": false,
+    "fechaInicio": "2016-03-02T05:10:07-03:00",
+    "personasMaximas": 8,
+    "requerimientosActividad": "Requerimientos actividad 4 Update",
+    "tipo": {
+        "tipoId": 8
+    },
+    "tituloActividad": "Titulo actividad 4 Update",
+    "ubicacionActividadX": 800,
+    "ubicacionActividadY": 50
+}
+```
+
+
+## Categoria
+
+### Listar todas las categorias
+
+```GET /categorias```
+
+### Listar los tipos pertenecientes a una categoria
+
+```GET /categorias/{categoria_id}/tipos```
