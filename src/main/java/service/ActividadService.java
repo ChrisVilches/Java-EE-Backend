@@ -104,7 +104,7 @@ public class ActividadService {
 	public Response find(@PathParam("actividad_id") Integer actividad_id){				
 		Actividad a = actividadEJB.find(actividad_id);
 		if(a == null){
-			return Response.status(Status.BAD_REQUEST).entity("Actividad id="+actividad_id+" no encontrada.").build();		
+			return Response.status(Status.FORBIDDEN).entity("Actividad id="+actividad_id+" no encontrada.").build();		
 		}		
 		return Response.status(Status.OK).entity(a).build();		
 	}

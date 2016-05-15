@@ -19,6 +19,8 @@ public interface ReporteFacade {
 	public Reporte find(Object id);
 
 	public List<Reporte> findAll();
+	
+	public List<Reporte> noRevisados();
 
 	public List<Reporte> findRange(int[] range);
 

@@ -67,7 +67,7 @@ public class UsuarioService {
 	public Response find(@PathParam("usuario_id") Integer usuario_id){				
 		Usuario u = usuarioEJB.find(usuario_id);
 		if(u == null){
-			return Response.status(Status.BAD_REQUEST).entity("Usuario id="+usuario_id+" no encontrado.").build();		
+			return Response.status(Status.FORBIDDEN).entity("Usuario id="+usuario_id+" no encontrado.").build();		
 		}		
 		return Response.status(Status.OK).entity(u).build();		
 	}
@@ -98,8 +98,8 @@ public class UsuarioService {
 		Usuario u = usuarioEJB.find(usuario_id);
 		Actividad a = actividadEJB.find(actividad_id);
 		
-		if(u==null) return Response.status(Status.BAD_REQUEST).entity("Error al agregar participacion de usuario en actividad. Usuario no existe.").build();	
-		if(a==null) return Response.status(Status.BAD_REQUEST).entity("Error al agregar participacion de usuario en actividad. Actividad no existe.").build();	
+		if(u==null) return Response.status(Status.FORBIDDEN).entity("Error al agregar participacion de usuario en actividad. Usuario no existe.").build();	
+		if(a==null) return Response.status(Status.FORBIDDEN).entity("Error al agregar participacion de usuario en actividad. Actividad no existe.").build();	
 		
 		u.getActividades().add(a);
 		a.getParticipantes().add(u);
@@ -116,8 +116,8 @@ public class UsuarioService {
 		Usuario u = usuarioEJB.find(usuario_id);
 		Actividad a = actividadEJB.find(actividad_id);
 		
-		if(u==null) return Response.status(Status.BAD_REQUEST).entity("Error al eliminar participacion de usuario en actividad. Usuario no existe.").build();	
-		if(a==null) return Response.status(Status.BAD_REQUEST).entity("Error al eliminar participacion de usuario en actividad. Actividad no existe.").build();	
+		if(u==null) return Response.status(Status.FORBIDDEN).entity("Error al eliminar participacion de usuario en actividad. Usuario no existe.").build();	
+		if(a==null) return Response.status(Status.FORBIDDEN).entity("Error al eliminar participacion de usuario en actividad. Actividad no existe.").build();	
 				
 		u.getActividades().remove(a);
 		a.getParticipantes().remove(u);
@@ -154,7 +154,7 @@ public class UsuarioService {
 			return Response.status(Status.OK).build();
 		}
 		
-		return Response.status(Status.BAD_REQUEST).entity("Nombre de usuario y/o contraseña incorrectos.").build();		
+		return Response.status(Status.FORBIDDEN).entity("Nombre de usuario y/o contraseña incorrectos.").build();		
 	}
 	
 	
@@ -187,7 +187,7 @@ public class UsuarioService {
 		
 		// Si ya existe un usuario con el mismo correo
 		if(usuarioEJB.usuarioExiste(nuevoUsuario)){
-			return Response.status(Status.BAD_REQUEST).entity("Ya existe un usuario con el correo "+nuevoUsuario.getCorreo()+"@usach.cl.").build();			
+			return Response.status(Status.FORBIDDEN).entity("Ya existe un usuario con el correo "+nuevoUsuario.getCorreo()+"@usach.cl.").build();			
 		}
 		
 		usuarioEJB.create(nuevoUsuario);
@@ -225,7 +225,7 @@ public class UsuarioService {
 		Usuario usuarioABorrar = usuarioEJB.find(usuario_id);
 		
 		if(usuarioABorrar == null){
-			return Response.status(Status.BAD_REQUEST).entity("El usuario que se intenta eliminar no existe.").build();
+			return Response.status(Status.FORBIDDEN).entity("El usuario que se intenta eliminar no existe.").build();
 		}
 		
 		usuarioEJB.remove(usuarioABorrar);		

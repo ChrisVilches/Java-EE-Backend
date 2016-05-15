@@ -16,13 +16,13 @@ INSERT INTO `recreu`.`carrera` (`carrera_id`, `nombre_carrera`) VALUES ('', 'Arq
 --
 --
 
-INSERT INTO `recreu`.`usuario` (`disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (true, 'felo', 		'pass', '1', '2', true, 			'felipe', 'chris', 'vilches', 'cespedes', 'java, programar, etc', '1991-10-24', true, '123456', '1');
-INSERT INTO `recreu`.`usuario` (`disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (true, 'naty', 		'pass', '10', '20', true, 		'natalia', 'belen', 'perez', 'guerrero', 'caminar, dormir', '1991-05-23', true, '987654', '1');
-INSERT INTO `recreu`.`usuario` (`disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (true, 'gustavo', 		'pass', '11', '25', true, 		'gustavo', 'gaston', 'curifuta', 'curifuta', 'cocinar, ver TV', '1992-04-12', true, '156438', '2');
-INSERT INTO `recreu`.`usuario` (`disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (true, 'pipe', 		'pass', '100', '25', true, 		'felipe', 'ignacio', 'jara', 'ramirez', 'andar en bicicleta, escribir, hacer ejercicio', '1991-01-29', true, '159753', '2');
-INSERT INTO `recreu`.`usuario` (`disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (true, 'jenny', 		'pass', '125', '250', true, 		'jennifer', 'andrea', 'venegas', 'rannou', 'c++, pascal, python', '1992-07-23', true, '456789123', '3');
-INSERT INTO `recreu`.`usuario` (`disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (true, 'christopher', 	'pass', '12', '202', true, 		'christopher', 'benjamin', 'ovalle', 'diaz', 'angular, node.js, meteor, ruby on rails', '1992-01-10', true, '7537531', '4');
-INSERT INTO `recreu`.`usuario` (`disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (true, 'fernando', 	'pass', '152', '2200', true, 	'fernando', 'andres', 'rannou', 'iturbe', 'centos, fedora, ubuntu', '1968-05-24', true, '9638532', '4');
+INSERT INTO `recreu`.`usuario` (`es_administrador`, `disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (false, true, 'felo', 		'pass', '1', '2', true, 			'felipe', 'chris', 'vilches', 'cespedes', 'java, programar, etc', '1991-10-24', true, '123456', '1');
+INSERT INTO `recreu`.`usuario` (`es_administrador`, `disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (true, true, 'naty', 		'pass', '10', '20', true, 		'natalia', 'belen', 'perez', 'guerrero', 'caminar, dormir', '1991-05-23', true, '987654', '1');
+INSERT INTO `recreu`.`usuario` (`es_administrador`, `disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (false, true, 'gustavo', 		'pass', '11', '25', true, 		'gustavo', 'gaston', 'curifuta', 'curifuta', 'cocinar, ver TV', '1992-04-12', true, '156438', '2');
+INSERT INTO `recreu`.`usuario` (`es_administrador`, `disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (false, true, 'pipe', 		'pass', '100', '25', true, 		'felipe', 'ignacio', 'jara', 'ramirez', 'andar en bicicleta, escribir, hacer ejercicio', '1991-01-29', true, '159753', '2');
+INSERT INTO `recreu`.`usuario` (`es_administrador`, `disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (true, true, 'jenny', 		'pass', '125', '250', true, 		'jennifer', 'andrea', 'venegas', 'rannou', 'c++, pascal, python', '1992-07-23', true, '456789123', '3');
+INSERT INTO `recreu`.`usuario` (`es_administrador`, `disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (false, true, 'christopher', 	'pass', '12', '202', true, 		'christopher', 'benjamin', 'ovalle', 'diaz', 'angular, node.js, meteor, ruby on rails', '1992-01-10', true, '7537531', '4');
+INSERT INTO `recreu`.`usuario` (`es_administrador`, `disponibilidad`, `correo`, `password`, `last_position_x`, `last_position_y`, `es_activo`, `primer_nombre`, `segundo_nombre`, `apellido_paterno`, `apellido_materno`, `intereses`, `fecha_nacimiento`, `sexo`, `numero_telefono`, `carrera_id`) VALUES (false, true, 'fernando', 	'pass', '152', '2200', true, 	'fernando', 'andres', 'rannou', 'iturbe', 'centos, fedora, ubuntu', '1968-05-24', true, '9638532', '4');
 
 
 
@@ -138,7 +138,7 @@ INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 5);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 18);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 20);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 21);
-INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 25);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 22);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (1, 5);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (2, 1);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (2, 2);
@@ -162,10 +162,31 @@ INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (4, 19);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (5, 5);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (5, 9);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (5, 21);
-INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (5, 24);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (5, 22);
+INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (6, 20);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (6, 21);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (6, 22);
-INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (6, 23);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (7, 17);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (7, 18);
 INSERT INTO usuario_actividad (usuario_id, actividad_id) VALUES (7, 19);
+
+--
+--	Reporte
+--
+
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (1,1,2,3,NULL,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (2,3,3,4,2,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (3,1,4,8,NULL,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (4,2,5,10,NULL,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (5,2,5,15,2,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (6,1,5,4,NULL,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (7,2,5,8,NULL,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (8,4,5,9,5,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (9,3,5,18,NULL,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (10,4,4,20,NULL,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (11,3,4,21,NULL,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (12,2,4,15,5,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (13,4,5,15,2,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (14,3,4,16,NULL,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (15,2,5,5,NULL,'Mal comportamiento');
+INSERT INTO `reporte` (`reporte_id`,`usuario_reportado_id`,`usuario_reportador_id`,`actividad_id`,`administrador_id`,`motivo_reporte`) VALUES (16,1,5,9,5,'Mal comportamiento');

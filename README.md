@@ -29,6 +29,11 @@
 - [Categoria](#categoria)
   * [Listar todas las categorias](#listar-todas-las-categorias)
   * [Listar los tipos pertenecientes a una categoria](#listar-los-tipos-pertenecientes-a-una-categoria)
+- [Reporte](#reporte)
+  * [Listar reportes](#listar-reportes)
+  * [Listar reportes que no han sido revisados por un administrador](#listar-reportes-que-no-han-sido-revisados-por-un-administrador)
+  * [Obtener reporte dado su ID](#obtener-reporte-dado-su-id)
+  * [Marcar un reporte como revisado](#marcar-un-reporte-como-revisado)
 
 <!-- tocstop -->
 
@@ -280,3 +285,23 @@ Debe enviarse el JSON conteniendo la ID de la actividad, y los atributos que se 
 ### Listar los tipos pertenecientes a una categoria
 
 ```GET /categorias/{categoria_id}/tipos```
+
+## Reporte
+
+### Listar reportes
+
+```GET /reportes```
+
+### Listar reportes que no han sido revisados por un administrador
+
+```GET /reportes?no_revisados```
+
+### Obtener reporte dado su ID
+
+```GET /reportes/{reporte_id}```
+
+### Marcar un reporte como revisado
+
+```PUT /reportes/{reporte_id}/revisar/{administrador_id}```
+
+El parametro ```administrador_id``` es la id del usuario administrador que revisa el reporte.
