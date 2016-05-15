@@ -16,7 +16,7 @@ public class CategoriaEJB extends AbstractFacade<Categoria> implements Categoria
 	private EntityManager em;
 	
 	public CategoriaEJB() {
-		super(Categoria.class);
+		super(Categoria.class, "categoriaId");
 	}
 
 	@Override

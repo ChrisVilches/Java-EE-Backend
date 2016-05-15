@@ -3,6 +3,7 @@ package facade;
 import java.util.List;
 
 import javax.ejb.Local;
+import javax.ws.rs.core.MultivaluedMap;
 
 import model.Reporte;
 
@@ -20,7 +21,7 @@ public interface ReporteFacade {
 
 	public List<Reporte> findAll();
 	
-	public List<Reporte> noRevisados();
+	public List<Reporte> findAll(MultivaluedMap<String,String> queryParams);
 
 	public List<Reporte> findRange(int[] range);
 

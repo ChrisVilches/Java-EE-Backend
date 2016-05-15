@@ -1,14 +1,19 @@
 package ejb;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.ws.rs.core.MultivaluedMap;
 
 import facade.AbstractFacade;
 import facade.ActividadFacade;
 import model.Actividad;
+import model.Tipo;
 
 @Stateless
 public class ActividadEJB extends AbstractFacade<Actividad> implements ActividadFacade {
@@ -18,29 +23,36 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 	private EntityManager em;
 	
 	public ActividadEJB() {
-		super(Actividad.class);
+		super(Actividad.class, "actividadId");
 	}
+	
 	
 	@Override
-	@SuppressWarnings("unchecked")
-	public List<Actividad> actividadesSegunTipos(List<Integer> tiposIds){
+	protected void obtenerParametrosURL(CriteriaQuery<Actividad> q, CriteriaBuilder cb, Root<Actividad> t, MultivaluedMap<String, String> queryParams) {
 		
-		String hql = "SELECT a FROM Actividad a WHERE a.tipo.tipoId in :tipos ORDER BY a.actividadId DESC";		
-	
-		return em.createQuery(hql)
-				.setParameter("tipos", tiposIds)
-				.getResultList();	
+		if(queryParams == null) return;
+		if(queryParams.containsKey("tipos")){
+			
+				// Agregar una condicion para mostrar actividades filtradas por tipos (lista de tipos)
+			
+				String[] tipos = queryParams.get("tipos").get(0).split("-");
+				ArrayList<Integer> tiposIds = new ArrayList<Integer>();
+				
+				for(int i=0; i<tipos.length; i++){ // Crear el arreglo de IDs
+					tiposIds.add(Integer.parseInt(tipos[i]));					
+				}
+				
+				agregarRestriccion(q, cb, t, t.<Tipo> get("tipo").<Integer> get("tipoId").in(tiposIds));				
+				q.orderBy(cb.desc(t.<Integer> get("actividadId")));					
+		}		
 	}
+	
 
 	@Override
 	protected EntityManager getEntityManager() {
 		return this.em;
 	}
-	
-	@Override
-	public List<Actividad> obtenerPagina(int ultimaId, int tamanoPagina) {
-		return obtenerPagina(ultimaId, tamanoPagina, "actividadId");
-	}
+
 		
 
 }

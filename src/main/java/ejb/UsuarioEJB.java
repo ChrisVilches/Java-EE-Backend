@@ -1,10 +1,12 @@
 package ejb;
 
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import facade.AbstractFacade;
 import facade.UsuarioFacade;
@@ -17,44 +19,50 @@ public class UsuarioEJB extends AbstractFacade<Usuario> implements UsuarioFacade
 	private EntityManager em;
 
 	public UsuarioEJB() {
-		super(Usuario.class);
-	}
-
-	public boolean usuarioExiste(Usuario entity) {
-
-		String hql = "SELECT u FROM Usuario u WHERE u.correo = :correo";
-
-		// Ejecutar query, obtener lista de usuarios con el mismo correo (lista de tamano 1)
-		// y retornar verdadero si existe ya el usuario
-		
-		return em.createQuery(hql)
-				.setParameter("correo", entity.getCorreo())
-				.setMaxResults(1)
-				.getResultList()
-				.size() > 0;
-
+		super(Usuario.class, "usuarioId");
 	}
 	
+	public boolean usuarioExiste(Usuario entity) {	
 		
-	
-	public boolean loginCorrecto(String nombreUsuario, String password){
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Usuario> query = cb.createQuery(Usuario.class);		
+		Root<Usuario> t = query.from(Usuario.class);
+		TypedQuery<Usuario> tq;		
 		
-		String hql = "SELECT u FROM Usuario u WHERE u.correo = :correo AND u.password = :password";
+		query.where(cb.equal(t.<String>get("correo"), entity.getCorreo()));
+		tq = getEntityManager().createQuery(query);
 		
-		return em.createQuery(hql)
-				.setParameter("correo", nombreUsuario)
-				.setParameter("password", password)
-				.setMaxResults(1)
-				.getResultList().size() == 1;
+		tq.setMaxResults(1);
+		
+		return tq.getResultList().size() > 0;
 
 	}
 	
-	
-	@Override
-	public List<Usuario> obtenerPagina(int ultimaId, int tamanoPagina) {
-		return obtenerPagina(ultimaId, tamanoPagina, "usuarioId");
-	}
 		
+	
+	public Usuario login(String nombreUsuario, String password){		
+	
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Usuario> query = cb.createQuery(Usuario.class);		
+		Root<Usuario> t = query.from(Usuario.class);
+		TypedQuery<Usuario> tq;		
+		
+		query.where(
+				cb.and(
+							cb.equal(t.<String>get("correo"), nombreUsuario), 
+							cb.equal(t.<String>get("password"), password)
+						)
+				);
+		
+		tq = getEntityManager().createQuery(query);
+		tq.setMaxResults(1);
+		
+		if(tq.getResultList().size() == 1){
+			return tq.getResultList().get(0);
+		}		
+		
+		return null;
+	}
 	
 
 	@Override

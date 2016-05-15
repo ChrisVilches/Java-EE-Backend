@@ -2,6 +2,8 @@ package facade;
 
 import java.util.List;
 import javax.ejb.Local;
+import javax.ws.rs.core.MultivaluedMap;
+
 import model.Actividad;
 
 @Local
@@ -17,12 +19,10 @@ public interface ActividadFacade {
 	public Actividad find(Object id);
 
 	public List<Actividad> findAll();
+	
+	public List<Actividad> findAll(MultivaluedMap<String,String> queryParams);
 
 	public List<Actividad> findRange(int[] range);
-	
-	public List<Actividad> obtenerPagina(int ultimaId, int tamanoPagina);
-	
-	public List<Actividad> actividadesSegunTipos(List<Integer> tiposIds);
 
 	public int count();
 

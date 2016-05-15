@@ -16,7 +16,7 @@ public class CalificacionEJB extends AbstractFacade<Calificacion> implements Cal
 	private EntityManager em;
 	
 	public CalificacionEJB() {
-		super(Calificacion.class);
+		super(Calificacion.class, "calificacionId");
 	}
 
 	@Override

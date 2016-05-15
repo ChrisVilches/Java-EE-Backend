@@ -16,7 +16,7 @@ public class BanEJB extends AbstractFacade<Ban> implements BanFacade {
 	private EntityManager em;
 	
 	public BanEJB() {
-		super(Ban.class);
+		super(Ban.class, "banId");
 	}
 
 	@Override

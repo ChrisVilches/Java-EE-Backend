@@ -9,7 +9,6 @@
 - [Usuario](#usuario)
   * [Listar todos los usuarios](#listar-todos-los-usuarios)
   * [Obtener un usuario por su ID](#obtener-un-usuario-por-su-id)
-  * [Listar usuarios paginado](#listar-usuarios-paginado)
   * [Login](#login)
   * [Registrar usuario](#registrar-usuario)
   * [Listar actividades en las que participa el usuario](#listar-actividades-en-las-que-participa-el-usuario)
@@ -20,9 +19,7 @@
   * [Editar usuario](#editar-usuario)
 - [Actividad](#actividad)
   * [Listar todas las actividades](#listar-todas-las-actividades)
-  * [Listar actividades de forma paginada](#listar-actividades-de-forma-paginada)
   * [Obtener actividad por su ID](#obtener-actividad-por-su-id)
-  * [Obtener actividades que pertenecen a uno o mas tipos](#obtener-actividades-que-pertenecen-a-uno-o-mas-tipos)
   * [Agregar actividad](#agregar-actividad)
   * [Listar usuarios que participan en una actividad](#listar-usuarios-que-participan-en-una-actividad)
   * [Editar actividad](#editar-actividad)
@@ -31,7 +28,6 @@
   * [Listar los tipos pertenecientes a una categoria](#listar-los-tipos-pertenecientes-a-una-categoria)
 - [Reporte](#reporte)
   * [Listar reportes](#listar-reportes)
-  * [Listar reportes que no han sido revisados por un administrador](#listar-reportes-que-no-han-sido-revisados-por-un-administrador)
   * [Obtener reporte dado su ID](#obtener-reporte-dado-su-id)
   * [Marcar un reporte como revisado](#marcar-un-reporte-como-revisado)
 
@@ -59,27 +55,30 @@ JDBC/recreu_pool
 
 ```GET /usuarios```
 
+Se pueden pasar parametros extra agregando al final algo como ```?mostrar=20&ultima_id=223```.
+
+Diccionario de parametros:
+
+1. **mostrar (numero)**: Pone un limite a cuantos elementos mostrar. Equivalente a ```LIMIT``` en SQL.
+2. **ultima_id (numero)**: Sirve para paginar. Entrega los elementos cuya id es menor a ```ultima_id```. Ademas pone el orden en ```ORDER BY id DESC```. En conjunto con el parametro ```mostrar```, sirve para paginar, ya que se puede obtener un numero de elementos, por ejemplo 5, y luego obtener los siguiente 5 elementos (indicando la ultima id de la pagina anterior). Si el valor es 0, entonces se entrega la primera pagina.
+
+Ejemplos:
+
+1. Si existen 15 elementos ordenados numerados perfectamente con ID ascendente, y si se hace ```/usuarios?mostrar=5&ultima_id=0```, entonces se obtienen los usuarios ids 15, 14, 13, 12, 11. Luego para obtener la siguiente pagina, se ejecuta ```/usuarios?mostrar=5&ultima_id=11``` (ya que la ultima ID de la primera pagina fue 11), y se obtienen los usuarios con ids 10, 9, 8, 7, 6.
+2. En el caso anterior, si se ejecuta ```/usuarios?ultima_id=0``` se obtienen todos los elementos empezando desde el 15 hasta el 1.
+3. Y si se ejecuta ```/usuarios?mostrar=2``` se obtienen los usuarios 1 y 2, ya que ```mostrar``` no ordena descendientemente.
+
+
 ### Obtener un usuario por su ID
 
 ```GET /usuarios/{usuario_id}```
-
-### Listar usuarios paginado
-
-
-```GET /usuarios/?ultima_id={ultima_id}&mostrar={tamano_pagina}```
-
-Esto sirve para hacer algo similar a lo que hace Twitter, es decir, mostrar una porcion de la lista, y luego cuando se necesitan mas, se coloca en **ultima_id** la ultima ID de la pagina actual, y el numero de nuevos elementos que se quieren obtener (**tamano_pagina**). Por ejemplo si la ultima id fue 10, y se quieren obtener 3 nuevos elementos, los elementos que se retornan tienen las ids 9, 8 y 7 (asumiendo que estan ordenadas y no hay huecos, aunque funciona bien incluso si los hubiera).
-
-
-1. **ultima_id** es la ultima ID de la pagina anterior. Para mostrar la primera pagina, dejarla con valor 0.
-2. **tamano_pagina** cantidad de resultados que se quieren obtener.
 
 
 ### Login
 
 ```POST /usuarios/login```
 
-Retorna codigo de estado ```200 (OK)``` en caso de login correcto, y en caso de login incorrecto, retorna otro codigo. El correo puede tener mayusculas y minusculas (no afecta), pero la password debe ser igual que como se registro.
+Retorna codigo de estado ```200 (OK)``` y el JSON con el usuario en caso de login correcto, y en caso de login incorrecto, retorna otro codigo de estado. El correo puede tener mayusculas y minusculas (no afecta), pero la password debe ser igual que como se registro.
 
 Alternativa #1: Sin incluir ```@usach.cl```
 
@@ -193,31 +192,20 @@ Los atributos ```created_at``` y ```last_update``` son ignorados.
 
 ```GET /actividades```
 
+Diccionario de parametros extra:
 
-### Listar actividades de forma paginada
+1. **mostrar (numero)**: Limite de cuantos elementos se quieren ver. Equivalente a: [Listar todos los usuarios](#listar-todos-los-usuarios)
+2. **ultima_id (numero)**: Obtener los elementos a partir de la ultima_id. Sirve para paginar. Equivalente a: [Listar todos los usuarios](#listar-todos-los-usuarios)
+3. **tipos**: Sirve para obtener la union de actividades que pertenecen a los tipos de la lista entregada. Ejemplos de formato es:
+  * ```?tipos=2```
+  * ```?tipos=2-3-4```
+  * ```?tipos=2-7-8-9-3```
 
-```GET /actividades/?ultima_id={ultima_id}&mostrar={tamano_pagina}```
-
-Para entender que significan estos parametros, ver [Listar usuarios paginado](#listar-usuarios-paginado).
 
 
 ### Obtener actividad por su ID
 
 ```GET /actividades/{actividad_id}```
-
-
-### Obtener actividades que pertenecen a uno o mas tipos
-
-**Lista de tipos**: Esta URL contiene el parametro ```tipos``` y su valor es una lista de IDs de tipos, separadas por un ```-```. En caso de usar esta consulta, se obtiene la **union**, y no la interseccion de los tipos (Utiliza la consulta del tipo ```where x in (1,2,3..)```). El formato de URL es:
-
-```GET /actividades/?tipos=1-2-3-4-5```
-
-**Solamente un tipo**: Similar al anterior, pero solo se coloca un numero.
-
-```GET /actividades/?tipos=3```
-
-
-
 
 
 ### Agregar actividad
@@ -292,9 +280,12 @@ Debe enviarse el JSON conteniendo la ID de la actividad, y los atributos que se 
 
 ```GET /reportes```
 
-### Listar reportes que no han sido revisados por un administrador
+Diccionario de parametros extra:
 
-```GET /reportes?no_revisados```
+1. **mostrar (numero)**: Limite de cuantos elementos se quieren ver. Equivalente a: [Listar todos los usuarios](#listar-todos-los-usuarios)
+2. **ultima_id (numero)**: Obtener los elementos a partir de la ultima_id. Sirve para paginar. Equivalente a: [Listar todos los usuarios](#listar-todos-los-usuarios)
+3. **no_revisados**: Sirve para listar solamente los reportes que aun no se han revisado. Este parametro no tiene valor, por ejemplo ```?param1=hola&no_revisados&param2=100```.
+
 
 ### Obtener reporte dado su ID
 

@@ -16,7 +16,7 @@ public class ComentarioEJB extends AbstractFacade<Comentario> implements Comenta
 	private EntityManager em;
 	
 	public ComentarioEJB() {
-		super(Comentario.class);
+		super(Comentario.class, "comentarioId");
 	}
 
 	@Override

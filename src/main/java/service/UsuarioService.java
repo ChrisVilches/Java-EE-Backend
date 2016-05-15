@@ -13,7 +13,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -41,7 +40,7 @@ public class UsuarioService {
 	@Produces({"application/xml", "application/json"})
 	public List<Usuario> findAll(@Context UriInfo ui){
 		
-		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
+		/*MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
 		if(queryParams.containsKey("ultima_id") && queryParams.containsKey("mostrar")){
 			try{
 				
@@ -53,9 +52,9 @@ public class UsuarioService {
 			} catch(NumberFormatException e){
 				return null;
 			}			
-		}		
+		}		*/
 			
-		return usuarioEJB.findAll();
+		return usuarioEJB.findAll(ui.getQueryParameters());
 
 	}
 	
@@ -77,12 +76,11 @@ public class UsuarioService {
 	@Path("{usuario_id}/actividades")
 	@Produces({"application/xml", "application/json"})
 	public List<Actividad> obtenerActividades(@PathParam("usuario_id") Integer usuario_id, @Context UriInfo ui){		
-		
-		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
+
 		Usuario u = usuarioEJB.find(usuario_id);
 		
-		if(queryParams.containsKey("organizador")){
-			// Si tiene el parametro "organizador" significa que se busaca las actividades que organizo este usuario			
+		if(ui.getQueryParameters().containsKey("organizador")){
+			// Si tiene el parametro "organizador" significa que se busca las actividades que organizo este usuario			
 			return u.getActividadesOrganizadas();			
 		}	
 	
@@ -148,10 +146,10 @@ public class UsuarioService {
 			username = username.split("@")[0];
 		}
 		
-		Boolean respuesta = usuarioEJB.loginCorrecto(username, password);
+		Usuario respuesta = usuarioEJB.login(username, password);
 		
-		if(respuesta){
-			return Response.status(Status.OK).build();
+		if(respuesta != null){
+			return Response.status(Status.OK).entity(respuesta).build();
 		}
 		
 		return Response.status(Status.FORBIDDEN).entity("Nombre de usuario y/o contraseña incorrectos.").build();		

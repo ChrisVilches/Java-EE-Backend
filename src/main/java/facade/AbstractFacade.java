@@ -6,8 +6,10 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import javax.ws.rs.core.MultivaluedMap;
 
 
 /*
@@ -18,9 +20,11 @@ import javax.persistence.criteria.Selection;
 
 public abstract class AbstractFacade<T> {
 	private Class<T> entityClass;
+	String idAttributeName;
 
-	public AbstractFacade(Class<T> entityClass) {
+	public AbstractFacade(Class<T> entityClass, String idAttributeName) {
 		this.entityClass = entityClass;
+		this.idAttributeName = idAttributeName;
 	}
 
 	protected abstract EntityManager getEntityManager();
@@ -37,33 +41,92 @@ public abstract class AbstractFacade<T> {
 		getEntityManager().remove(getEntityManager().merge(entity));
 	}
 	
-	/*
-	 * Entrega la pagina de tamano "tamanoPagina" que viene despues de la "ultimaId"
-	 * Si la ultima ID es 0, entonces entrega la primera pagina.
-	 */
-	protected List<T> obtenerPagina(int ultimaId, int tamanoPagina, String idAttributeName){
-
+	
+	public List<T> findAll(MultivaluedMap<String,String> queryParams){
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<T> query = cb.createQuery(entityClass);		
 		Root<T> t = query.from(entityClass);
-		TypedQuery<T> tq;
-					
-		if(tamanoPagina < 1) tamanoPagina = 1;		
+		TypedQuery<T> tq;		
 		
-		if(ultimaId > 0){			
-			query.where(cb.lessThan(t.<Integer> get(idAttributeName), ultimaId));			
-		}		
+		paginarDesde(query, cb, t, queryParams);
+		obtenerParametrosURL(query, cb, t, queryParams);
 		
-		query.orderBy(cb.desc(t.<Integer> get(idAttributeName)));	
+		tq = getEntityManager().createQuery(query);		
+		setMaximo(tq, queryParams);
 		
-		tq = getEntityManager().createQuery(query);
+		return tq.getResultList();		
+	}
+	
+	/**
+	 * Procesa los parametros de la URL (?id=3&name=felo&etc). Todas las entidades pueden sobreescribir este metodo. 
+	 * La funcion findAll(uriParams) llama este metodo para pasar opciones extra (aparte de las de paginado).
+	 * @param q
+	 * @param cb
+	 * @param t
+	 * @param queryParams
+	 */
+	protected void obtenerParametrosURL(CriteriaQuery<T> q, CriteriaBuilder cb, Root<T> t, MultivaluedMap<String, String> queryParams){
 		
-		tq.setMaxResults(tamanoPagina);
-		return tq.getResultList();
-		
+		// Debe ser implementado por cada subclase
 	}
 	
 	
+	
+	/**
+	 * Pagina desde la ultima id, y hace que el orden sea id descendente.
+	 * @param q
+	 * @param cb
+	 * @param t
+	 * @param queryParams
+	 * @param idAttributeName el nombre del atributo de la id, por ejemplo "usuarioId"
+	 */
+	private void paginarDesde(CriteriaQuery<T> q, CriteriaBuilder cb, Root<T> t, MultivaluedMap<String, String> queryParams){		
+		
+		// Agrega la restriccion WHERE id < ultimaId
+		
+		if(queryParams == null) return;
+		if(queryParams.containsKey("ultima_id")){				
+			
+			q.orderBy(cb.desc(t.<Integer>get(idAttributeName)));
+			
+			int ultimaId = Integer.parseInt(queryParams.get("ultima_id").get(0));
+			
+			if(ultimaId > 0){				
+				agregarRestriccion(q, cb, t, cb.lessThan(t.<Integer> get(idAttributeName), ultimaId));				
+			}
+
+		}						
+	}
+	
+	/**
+	 * Agrega una restriccion where a una consulta
+	 * @param q
+	 * @param cb
+	 * @param t
+	 * @param nuevaWhereClause
+	 */
+	protected void agregarRestriccion(CriteriaQuery<T> q, CriteriaBuilder cb, Root<T> t, Predicate nuevaWhereClause){
+		Predicate whereClause = q.getRestriction();
+		if(whereClause == null){			
+			q.where(nuevaWhereClause);			
+		} else {			
+			q.where(cb.and(whereClause, nuevaWhereClause));			
+		}
+	}
+	
+	
+	/**
+	 * Pone el maximo (LIMIT) a un query
+	 * @param tq
+	 * @param queryParams
+	 */
+	protected void setMaximo(TypedQuery<T> tq, MultivaluedMap<String, String> queryParams){		
+		if(queryParams == null) return;
+		if(queryParams.containsKey("mostrar")){					
+			tq.setMaxResults(Integer.parseInt(queryParams.get("mostrar").get(0)));
+		}		
+	}
+		
 
 	public T find(Object id) {
 		return getEntityManager().find(entityClass, id);
@@ -72,7 +135,7 @@ public abstract class AbstractFacade<T> {
 	@SuppressWarnings("unchecked")
 	public List<T> findAll() {
 		CriteriaQuery<T> cq = (CriteriaQuery<T>)getEntityManager().getCriteriaBuilder().createQuery();
-		cq.select(cq.from(entityClass));
+		cq.select(cq.from(entityClass));		
 		return getEntityManager().createQuery(cq).getResultList();
 	}
 	
@@ -94,5 +157,6 @@ public abstract class AbstractFacade<T> {
 		Query q = getEntityManager().createQuery(cq);
 		return ((Long) q.getSingleResult()).intValue();
 	}
+
 
 }

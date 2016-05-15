@@ -16,7 +16,7 @@ public class CarreraEJB extends AbstractFacade<Carrera> implements CarreraFacade
 	private EntityManager em;
 	
 	public CarreraEJB() {
-		super(Carrera.class);
+		super(Carrera.class, "carreraId");
 	}
 
 	@Override

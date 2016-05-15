@@ -16,7 +16,7 @@ public class TipoEJB extends AbstractFacade<Tipo> implements TipoFacade {
 	private EntityManager em;
 	
 	public TipoEJB() {
-		super(Tipo.class);
+		super(Tipo.class, "tipoId");
 	}
 
 	@Override

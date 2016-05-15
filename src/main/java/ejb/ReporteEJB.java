@@ -1,14 +1,17 @@
 package ejb;
 
-import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.ws.rs.core.MultivaluedMap;
 
 import facade.AbstractFacade;
 import facade.ReporteFacade;
 import model.Reporte;
+import model.Usuario;
 
 @Stateless
 public class ReporteEJB extends AbstractFacade<Reporte> implements ReporteFacade {
@@ -17,21 +20,26 @@ public class ReporteEJB extends AbstractFacade<Reporte> implements ReporteFacade
 	private EntityManager em;
 
 	public ReporteEJB() {
-		super(Reporte.class);
+		super(Reporte.class, "reporteId");
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public List<Reporte> noRevisados() {
+	protected void obtenerParametrosURL(CriteriaQuery<Reporte> q, CriteriaBuilder cb, Root<Reporte> t, MultivaluedMap<String, String> queryParams) {
+		if(queryParams == null) return;
+		if(queryParams.containsKey("no_revisados")){
+			
+			// Buscar solo las que no tienen ID de administrador (= que no han sido revisadas)
+			agregarRestriccion(q, cb, t, cb.isNull(t.<Usuario>get("administrador")));
 
-		String hql = "SELECT r FROM Reporte r WHERE r.administrador.usuarioId = NULL ORDER BY r.reporteId DESC";
-
-		return em.createQuery(hql).getResultList();
+		}		
 	}
+
 
 	@Override
 	protected EntityManager getEntityManager() {
 		return this.em;
 	}
+
+	
 
 }

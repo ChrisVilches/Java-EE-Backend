@@ -1,6 +1,5 @@
 package service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -13,7 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
@@ -36,54 +34,8 @@ public class ActividadService {
 	
 	@GET
 	@Produces({"application/xml", "application/json"})
-	public List<Actividad> lista(@Context UriInfo ui){
-		
-		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
-		
-		/*
-		 * Peticion por lista de tipos ?tipos=1-2-3-4
-		 */
-		
-		
-		if(queryParams.containsKey("tipos")){
-			try{
-				
-				String[] tipos = queryParams.get("tipos").get(0).split("-");
-				ArrayList<Integer> tiposIds = new ArrayList<Integer>();
-				
-				for(int i=0; i<tipos.length; i++){ // Crear el arreglo de IDs
-					tiposIds.add(Integer.parseInt(tipos[i]));					
-				}
-				
-				return actividadEJB.actividadesSegunTipos(tiposIds);
-				
-			} catch(NumberFormatException e){
-				return null;
-			}			
-		}		
-		
-		/*
-		 * Peticion paginada
-		 */
-		
-		if(queryParams.containsKey("ultima_id") && queryParams.containsKey("mostrar")){
-			try{
-				
-				int id = Integer.parseInt(queryParams.get("ultima_id").get(0));
-				int cuantas = Integer.parseInt(queryParams.get("mostrar").get(0));				
-				
-				return actividadEJB.obtenerPagina(id, cuantas);
-				
-			} catch(NumberFormatException e){
-				return null;
-			}			
-		}	
-		
-		/*
-		 * Normal (lista completa)
-		 */
-		
-		return actividadEJB.findAll();
+	public List<Actividad> findAll(@Context UriInfo ui){
+		return actividadEJB.findAll(ui.getQueryParameters());
 	}
 	
 
