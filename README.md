@@ -46,8 +46,10 @@
 Crear la siguiente Pool en Glassfish
 
 ```
-JDBC/recreu_pool
+jdbc/recreu_pool
 ```
+
+No olvidar colocar los atributos usuario, password y URL al crear esta pool. La URL es algo como ```jdbc:mysql://localhost:3306/recreu```.
 
 ## Usuario
 
