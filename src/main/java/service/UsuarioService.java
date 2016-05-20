@@ -13,6 +13,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -38,22 +39,8 @@ public class UsuarioService {
 	
 	@GET
 	@Produces({"application/xml", "application/json"})
-	public List<Usuario> findAll(@Context UriInfo ui){
+	public List<Usuario> findAll(@Context UriInfo ui){		
 		
-		/*MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
-		if(queryParams.containsKey("ultima_id") && queryParams.containsKey("mostrar")){
-			try{
-				
-				int id = Integer.parseInt(queryParams.get("ultima_id").get(0));
-				int cuantas = Integer.parseInt(queryParams.get("mostrar").get(0));						
-				
-				return usuarioEJB.obtenerPagina(id, cuantas);
-				
-			} catch(NumberFormatException e){
-				return null;
-			}			
-		}		*/
-			
 		return usuarioEJB.findAll(ui.getQueryParameters());
 
 	}
@@ -86,6 +73,35 @@ public class UsuarioService {
 	
 		return u.getActividades();
 	}
+	
+	
+	@GET
+	@Path("buscar")
+	@Produces({"application/xml", "application/json"})
+	public Response buscarUsuarioCorreo(@Context UriInfo ui){
+		
+		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
+		
+		
+		if(queryParams.containsKey("correo")){
+				
+				String correo = queryParams.get("correo").get(0);			
+				
+				// Si tiene @usach.cl, obtener solo la primera parte del correo
+				if(Usuario.correoTieneArrobaUsach(correo)){
+					correo = correo.split("@")[0];
+				}
+				
+				correo = correo.toLowerCase();
+				
+				return Response.status(Status.OK).entity(usuarioEJB.buscarUsuarioCorreo(correo)).build();
+
+		}	
+		
+		return Response.status(Status.OK).build();
+		
+	}
+	
 
 	
 	@POST
@@ -142,7 +158,7 @@ public class UsuarioService {
 		
 		// Si cumple con el patron xxx.xx@usach.cl
 		// entonces cortar la string en la arroba
-		if(username.matches("[a-z.]+@usach.cl")){
+		if(Usuario.correoTieneArrobaUsach(username)){
 			username = username.split("@")[0];
 		}
 		

@@ -19,6 +19,14 @@ public interface UsuarioFacade {
 
 	public Usuario find(Object id);
 	
+	/**
+	 * Retorna el usuario, dado su correo.
+	 * @param correo formateado sin @usach.cl y todo en minusculas
+	 * @return el usuario, o nulo
+	 */
+	public Usuario buscarUsuarioCorreo(String correo);
+	
+	
 	public boolean usuarioExiste(Usuario entity);
 	
 	

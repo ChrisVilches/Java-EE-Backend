@@ -38,6 +38,26 @@ public class UsuarioEJB extends AbstractFacade<Usuario> implements UsuarioFacade
 
 	}
 	
+	public Usuario buscarUsuarioCorreo(String correo){
+		
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Usuario> query = cb.createQuery(Usuario.class);		
+		Root<Usuario> t = query.from(Usuario.class);
+		TypedQuery<Usuario> tq;		
+		
+		query.where(cb.equal(t.<String>get("correo"), correo));
+		tq = getEntityManager().createQuery(query);
+		
+		tq.setMaxResults(1);
+		
+		if(tq.getResultList().size() == 1){
+			return tq.getResultList().get(0);
+		}		
+		
+		return null;	
+		
+	}
+	
 		
 	
 	public Usuario login(String nombreUsuario, String password){		

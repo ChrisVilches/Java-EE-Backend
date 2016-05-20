@@ -9,6 +9,7 @@
 - [Usuario](#usuario)
   * [Listar todos los usuarios](#listar-todos-los-usuarios)
   * [Obtener un usuario por su ID](#obtener-un-usuario-por-su-id)
+  * [Obtener usuario por su correo](#obtener-usuario-por-su-correo)
   * [Login](#login)
   * [Registrar usuario](#registrar-usuario)
   * [Listar actividades en las que participa el usuario](#listar-actividades-en-las-que-participa-el-usuario)
@@ -74,6 +75,15 @@ Ejemplos:
 ### Obtener un usuario por su ID
 
 ```GET /usuarios/{usuario_id}```
+
+
+### Obtener usuario por su correo
+
+```GET /usuarios/buscar?correo={correo}```
+
+El correo puede tener ```@usach.cl``` o no. Estar en minusculas o mayusculas, nada de eso afecta.
+
+Arroja codigo exitoso 200 en ambos casos (si encuentra o no un usuario), pero cuando lo encuentra, retorna el JSON, y cuando no lo encuentra, no entrega ningun JSON.
 
 
 ### Login

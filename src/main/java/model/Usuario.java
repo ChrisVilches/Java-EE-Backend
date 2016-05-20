@@ -61,6 +61,13 @@ public class Usuario implements Serializable {
 		setApellidoPaterno(Util.normalizarNombre(getApellidoPaterno()));	
 	}
 	
+	
+	public static boolean correoTieneArrobaUsach(String str){		
+		return str.matches("[a-z.]+@usach.cl");			
+	}
+	
+	
+	
 	public boolean correoFormatoCorrecto(){
 		return getCorreo().matches("[a-z.]+");
 	}
