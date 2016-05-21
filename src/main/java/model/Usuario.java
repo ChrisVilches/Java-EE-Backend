@@ -20,6 +20,7 @@ public class Usuario implements Serializable {
 	@Column(name="usuario_id", unique=true, nullable=false) 	private Integer usuarioId;
 
 	@Column(name="correo", nullable=false, length=45, updatable=false) 	private String correo;
+	
 	@Column(name="password", nullable=false, length=45) 	private String password;
 	@Column(name="disponibilidad", nullable=false, insertable=false) private Boolean disponibilidad;
 	@Column(name="created_at", nullable=false, insertable=false, updatable=false) private Date createdAt;
@@ -105,6 +106,7 @@ public class Usuario implements Serializable {
 		return password;
 	}
 
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}

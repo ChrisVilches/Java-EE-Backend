@@ -22,6 +22,7 @@ import facade.ActividadFacade;
 import facade.UsuarioFacade;
 import model.Actividad;
 import model.Usuario;
+import util.MensajeRespuesta;
 import util.StatusCodeExtra;
 
 @Path("/usuarios")
@@ -52,8 +53,9 @@ public class UsuarioService {
 	@Produces({"application/xml", "application/json"})
 	public Response find(@PathParam("usuario_id") Integer usuario_id){				
 		Usuario u = usuarioEJB.find(usuario_id);
-		if(u == null){
-			return Response.status(Status.FORBIDDEN).entity("Usuario id="+usuario_id+" no encontrado.").build();		
+		if(u == null){			
+			
+			return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("Usuario id="+usuario_id+" no encontrado.")).build();		
 		}		
 		return Response.status(Status.OK).entity(u).build();		
 	}
@@ -112,8 +114,8 @@ public class UsuarioService {
 		Usuario u = usuarioEJB.find(usuario_id);
 		Actividad a = actividadEJB.find(actividad_id);
 		
-		if(u==null) return Response.status(Status.FORBIDDEN).entity("Error al agregar participacion de usuario en actividad. Usuario no existe.").build();	
-		if(a==null) return Response.status(Status.FORBIDDEN).entity("Error al agregar participacion de usuario en actividad. Actividad no existe.").build();	
+		if(u==null) return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("Error al agregar participacion de usuario en actividad. Usuario no existe.")).build();	
+		if(a==null) return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("Error al agregar participacion de usuario en actividad. Actividad no existe.")).build();	
 		
 		u.getActividades().add(a);
 		a.getParticipantes().add(u);
@@ -130,8 +132,8 @@ public class UsuarioService {
 		Usuario u = usuarioEJB.find(usuario_id);
 		Actividad a = actividadEJB.find(actividad_id);
 		
-		if(u==null) return Response.status(Status.FORBIDDEN).entity("Error al eliminar participacion de usuario en actividad. Usuario no existe.").build();	
-		if(a==null) return Response.status(Status.FORBIDDEN).entity("Error al eliminar participacion de usuario en actividad. Actividad no existe.").build();	
+		if(u==null) return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("Error al eliminar participacion de usuario en actividad. Usuario no existe.")).build();	
+		if(a==null) return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("Error al eliminar participacion de usuario en actividad. Actividad no existe.")).build();	
 				
 		u.getActividades().remove(a);
 		a.getParticipantes().remove(u);
@@ -167,8 +169,9 @@ public class UsuarioService {
 		if(respuesta != null){
 			return Response.status(Status.OK).entity(respuesta).build();
 		}
+				
 		
-		return Response.status(Status.FORBIDDEN).entity("Nombre de usuario y/o contraseña incorrectos.").build();		
+		return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("Nombre de usuario y/o contraseña incorrectos.")).build();		
 	}
 	
 	
@@ -179,15 +182,15 @@ public class UsuarioService {
 	public Response registrarUsuario(Usuario nuevoUsuario){
 		
 		if(nuevoUsuario.getPassword().length() < 6) {
-			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity("La contraseña es demasiado corta.").build();
+			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity(MensajeRespuesta.crear("La contraseña es demasiado corta.")).build();
 		}
 		
 		if(nuevoUsuario.getFechaNacimiento() == null){
-			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity("Debe indicar fecha de nacimiento.").build();
+			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity(MensajeRespuesta.crear("Debe indicar fecha de nacimiento.")).build();
 		}
 		
 		if(nuevoUsuario.getSexo() == null){
-			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity("Debe indicar su sexo (masculino o femenino).").build();
+			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity(MensajeRespuesta.crear("Debe indicar su sexo (masculino o femenino).")).build();
 		}
 
 		// Normalizar strings (mayusculas, etc)		
@@ -196,12 +199,12 @@ public class UsuarioService {
 		
 		// Si el correo tiene formato incorrecto
 		if(!nuevoUsuario.correoFormatoCorrecto()){
-			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity("El correo debe tener solo letras y puntos. No incluir @usach.cl.").build();			
+			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity(MensajeRespuesta.crear("El correo debe tener solo letras y puntos. No incluir @usach.cl.")).build();			
 		}
 		
 		// Si ya existe un usuario con el mismo correo
 		if(usuarioEJB.usuarioExiste(nuevoUsuario)){
-			return Response.status(Status.FORBIDDEN).entity("Ya existe un usuario con el correo "+nuevoUsuario.getCorreo()+"@usach.cl.").build();			
+			return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("Ya existe un usuario con el correo "+nuevoUsuario.getCorreo()+"@usach.cl.")).build();			
 		}
 		
 		usuarioEJB.create(nuevoUsuario);
@@ -222,7 +225,7 @@ public class UsuarioService {
 
 		// Si el correo tiene formato incorrecto
 		if(!usuario.correoFormatoCorrecto()){
-			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity("El correo debe tener solo letras y puntos. No incluir @usach.cl.").build();			
+			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).entity(MensajeRespuesta.crear("El correo debe tener solo letras y puntos. No incluir @usach.cl.")).build();			
 		}
 		
 		usuarioEJB.edit(usuario);		
@@ -239,7 +242,7 @@ public class UsuarioService {
 		Usuario usuarioABorrar = usuarioEJB.find(usuario_id);
 		
 		if(usuarioABorrar == null){
-			return Response.status(Status.FORBIDDEN).entity("El usuario que se intenta eliminar no existe.").build();
+			return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("El usuario que se intenta eliminar no existe.")).build();
 		}
 		
 		usuarioEJB.remove(usuarioABorrar);		

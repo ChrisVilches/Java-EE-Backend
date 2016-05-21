@@ -18,6 +18,7 @@ import facade.ReporteFacade;
 import facade.UsuarioFacade;
 import model.Reporte;
 import model.Usuario;
+import util.MensajeRespuesta;
 
 @Path("/reportes")
 public class ReporteService {
@@ -44,7 +45,7 @@ public class ReporteService {
 	public Response find(@PathParam("reporte_id") Integer reporte_id){				
 		Reporte r = reporteEJB.find(reporte_id);
 		if(r == null){
-			return Response.status(Status.FORBIDDEN).entity("Reporte id="+reporte_id+" no encontrado.").build();		
+			return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("Reporte id="+reporte_id+" no encontrado.")).build();		
 		}		
 		return Response.status(Status.OK).entity(r).build();		
 	}
@@ -59,21 +60,21 @@ public class ReporteService {
 		Usuario admin;
 		
 		if(r == null){
-			return Response.status(Status.FORBIDDEN).entity("El reporte no existe.").build();
+			return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("El reporte no existe.")).build();
 		}
 		
 		if(r.getAdministrador() != null){
-			return Response.status(Status.FORBIDDEN).entity("El reporte ya fue revisado por un administrador.").build();
+			return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("El reporte ya fue revisado por un administrador.")).build();
 		}
 		
 		admin = usuarioEJB.find(administrador_id);
 		
 		if(admin == null){
-			return Response.status(Status.FORBIDDEN).entity("El usuario administrador no existe.").build();
+			return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("El usuario administrador no existe.")).build();
 		}
 		
 		if(!admin.getEsAdministrador()){
-			return Response.status(Status.FORBIDDEN).entity("El usuario no tiene permisos de administrador.").build();
+			return Response.status(Status.FORBIDDEN).entity(MensajeRespuesta.crear("El usuario no tiene permisos de administrador.")).build();
 		}
 		
 		r.setAdministrador(admin);
