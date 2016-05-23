@@ -22,6 +22,8 @@ public interface ActividadFacade {
 	
 	public List<Actividad> findAll(MultivaluedMap<String,String> queryParams);
 
+	public Actividad encontrarMasReciente();
+	
 	public List<Actividad> findRange(int[] range);
 
 	public int count();

@@ -69,7 +69,8 @@ public class ActividadService {
 	@Consumes({ "application/xml", "application/json" })
 	public Response crearActividad(Actividad nuevaActividad){		
 		actividadEJB.create(nuevaActividad);		
-		return Response.status(Status.OK).build();
+		
+		return Response.status(Status.OK).entity(actividadEJB.encontrarMasReciente()).build();
 	}
 	
 	

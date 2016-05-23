@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -14,6 +15,7 @@ import facade.AbstractFacade;
 import facade.ActividadFacade;
 import model.Actividad;
 import model.Tipo;
+
 
 @Stateless
 public class ActividadEJB extends AbstractFacade<Actividad> implements ActividadFacade {
@@ -25,6 +27,7 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 	public ActividadEJB() {
 		super(Actividad.class, "actividadId");
 	}
+	
 	
 	
 	@Override
@@ -44,7 +47,8 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 				
 				agregarRestriccion(q, cb, t, t.<Tipo> get("tipo").<Integer> get("tipoId").in(tiposIds));				
 				q.orderBy(cb.desc(t.<Integer> get("actividadId")));					
-		}		
+		}			
+		
 	}
 	
 

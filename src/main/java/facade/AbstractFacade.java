@@ -20,7 +20,7 @@ import javax.ws.rs.core.MultivaluedMap;
 
 public abstract class AbstractFacade<T> {
 	private Class<T> entityClass;
-	String idAttributeName;
+	protected String idAttributeName;
 
 	public AbstractFacade(Class<T> entityClass, String idAttributeName) {
 		this.entityClass = entityClass;
@@ -40,6 +40,31 @@ public abstract class AbstractFacade<T> {
 	public void remove(T entity) {
 		getEntityManager().remove(getEntityManager().merge(entity));
 	}
+	
+	
+	/**
+	 * Retorna la entidad mas recientemente agregada
+	 * @return
+	 */
+	public T encontrarMasReciente(){
+		
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<T> query = cb.createQuery(entityClass);		
+		Root<T> t = query.from(entityClass);
+		TypedQuery<T> tq;		
+		
+		query.orderBy(cb.desc(t.<Integer>get(idAttributeName)));		
+		
+		tq = getEntityManager().createQuery(query);
+		
+		tq.setMaxResults(1);
+		
+		
+		return tq.getResultList().get(0);		
+		
+	}
+	
+	
 	
 	
 	public List<T> findAll(MultivaluedMap<String,String> queryParams){
