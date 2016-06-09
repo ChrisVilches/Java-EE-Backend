@@ -213,6 +213,15 @@ Diccionario de parametros extra:
   * ```?tipos=2```
   * ```?tipos=2-3-4```
   * ```?tipos=2-7-8-9-3```
+  4. Parametros georeferenciales: Para hacer una busqueda geografica, tienen que existir estos tres parametros (simultaneamente):
+  * **latitud**: Latitud donde centrar la busqueda.
+  * **longitud**: Longitud donde centrar la busqueda.
+  * **ladocuadrado**: Una vez centrada la busqueda, se crea un cuadrado de lado ```ladocuadrado``` alrededor del centro, y se filtran las actividades, mostrando solo las que estan dentro de este cuadrado.
+
+
+  Ejemplo con varios parametros:
+
+  ```/actividades/?latitud=7&longitud=550&ladocuadrado=100&tipos=13&mostrar=2&ultima_id=39```
 
 
 

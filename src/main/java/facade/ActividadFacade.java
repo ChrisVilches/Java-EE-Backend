@@ -24,8 +24,8 @@ public interface ActividadFacade {
 
 	public Actividad encontrarMasReciente();
 	
-	public List<Actividad> actividadesOrganizadasPor(int idUsuario);
-	
+	public List<Actividad> actividadesOrganizadasPor(int idUsuario);	
+
 	public List<Actividad> findRange(int[] range);
 
 	public int count();

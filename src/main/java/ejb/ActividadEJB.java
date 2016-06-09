@@ -62,6 +62,35 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 				q.orderBy(cb.desc(t.<Integer> get("actividadId")));					
 		}			
 		
+		if(queryParams.containsKey("latitud") && queryParams.containsKey("longitud") && queryParams.containsKey("ladocuadrado")){			
+	
+			float ladoCuadrado = Float.parseFloat(queryParams.getFirst("ladocuadrado"));
+			
+			ladoCuadrado /= 2;
+
+			float latitud = Float.parseFloat(queryParams.getFirst("latitud"));
+			float longitud = Float.parseFloat(queryParams.getFirst("longitud"));
+						
+			float minX = latitud - ladoCuadrado;
+			float maxX = latitud + ladoCuadrado;
+			
+			float minY = longitud - ladoCuadrado;
+			float maxY = longitud + ladoCuadrado;
+			
+			agregarRestriccion(q, cb, t, 
+					cb.and(
+							cb.greaterThanOrEqualTo(t.<Float>get("ubicacionActividadX"), minX), 
+							cb.lessThanOrEqualTo(t.<Float>get("ubicacionActividadX"), maxX), 
+							
+							cb.greaterThanOrEqualTo(t.<Float>get("ubicacionActividadY"), minY), 
+							cb.lessThanOrEqualTo(t.<Float>get("ubicacionActividadY"), maxY)
+							)
+					);				
+			
+			q.orderBy(cb.desc(t.<Integer> get("actividadId")));			
+			
+		}
+		
 	}
 	
 
