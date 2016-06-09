@@ -21,6 +21,7 @@
 - [Actividad](#actividad)
   * [Listar todas las actividades](#listar-todas-las-actividades)
   * [Obtener actividad por su ID](#obtener-actividad-por-su-id)
+  * [Listar todas las actividades organizadas por un usuario (ID)](#listar-todas-las-actividades-organizadas-por-un-usuario-id)
   * [Agregar actividad](#agregar-actividad)
   * [Listar usuarios que participan en una actividad](#listar-usuarios-que-participan-en-una-actividad)
   * [Editar actividad](#editar-actividad)
@@ -218,6 +219,11 @@ Diccionario de parametros extra:
 ### Obtener actividad por su ID
 
 ```GET /actividades/{actividad_id}```
+
+
+### Listar todas las actividades organizadas por un usuario (ID)
+
+```GET /actividades/organizador/{usuario_organizador_id}```
 
 
 ### Agregar actividad

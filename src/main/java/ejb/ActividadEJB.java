@@ -1,11 +1,12 @@
 package ejb;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -28,6 +29,18 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 		super(Actividad.class, "actividadId");
 	}
 	
+	
+	@Override
+	public List<Actividad> actividadesOrganizadasPor(int idUsuario){
+		
+		String hql = "SELECT a FROM Actividad a WHERE a.organizador.usuarioId = :id";
+		
+		Query q = em.createQuery(hql);
+		
+		q.setParameter("id", idUsuario);
+		
+		return (List<Actividad>) q.getResultList();
+	}
 	
 	
 	@Override

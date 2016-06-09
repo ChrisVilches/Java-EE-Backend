@@ -63,6 +63,15 @@ public class ActividadService {
 	}
 	
 	
+	@GET
+	@Path("/organizador/{usuario_id: [0-9]+}")
+	@Produces({"application/xml", "application/json"})
+	public List<Actividad> actividadesOrganizadasPor(@PathParam("usuario_id") Integer  usuario_id){
+		
+		return actividadEJB.actividadesOrganizadasPor(usuario_id);	
+	
+	}
+	
 
 	
 	@POST
