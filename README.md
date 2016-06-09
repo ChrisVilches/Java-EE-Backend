@@ -217,6 +217,7 @@ Diccionario de parametros extra:
   * **latitud**: Latitud donde centrar la busqueda.
   * **longitud**: Longitud donde centrar la busqueda.
   * **ladocuadrado**: Una vez centrada la busqueda, se crea un cuadrado de lado ```ladocuadrado``` alrededor del centro, y se filtran las actividades, mostrando solo las que estan dentro de este cuadrado.
+5. **nofinalizadas**: Filtra las actividades para mostrar solamente las que ya finalizaron (se calcula con su tiempo de inicio y duracion estimada). Este parametro no tiene valor, simplemente se pone asi ```var=1&nofinalizadas&dato=2```
 
 
   Ejemplo con varios parametros:

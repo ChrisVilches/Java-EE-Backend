@@ -1,8 +1,8 @@
 package ejb;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -41,6 +41,34 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 		
 		return (List<Actividad>) q.getResultList();
 	}
+
+	
+	
+	/**
+	 * Este filtro es porque en Java EE es dificil hacer operaciones con fechas
+	 * asi que si el parametro "nofinalizadas" esta puesto, filtra removiendo las que ya terminaron
+	 */
+	@Override
+	protected void filter(List<Actividad> resultado, MultivaluedMap<String,String> queryParams) {
+		
+		if(!queryParams.containsKey("nofinalizadas")) return;
+		
+		long now = new Date().getTime();
+		List<Actividad> nueva = new ArrayList<Actividad>();
+		
+		for(Actividad act : resultado)
+			if(!act.yaFinalizo(now)) 
+				nueva.add(act);
+		
+		// Esto deberia ser con removeIf y eliminar las ya finalizadas, pero por alguna razon no compila Gradle los Predicates
+		
+		resultado.clear();
+		
+		for(Actividad act : nueva)
+			resultado.add(act);		
+	}
+	
+	
 	
 	
 	@Override
@@ -61,6 +89,7 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 				agregarRestriccion(q, cb, t, t.<Tipo> get("tipo").<Integer> get("tipoId").in(tiposIds));				
 				q.orderBy(cb.desc(t.<Integer> get("actividadId")));					
 		}			
+				
 		
 		if(queryParams.containsKey("latitud") && queryParams.containsKey("longitud") && queryParams.containsKey("ladocuadrado")){			
 	

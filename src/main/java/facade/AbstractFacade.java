@@ -65,6 +65,15 @@ public abstract class AbstractFacade<T> {
 	}
 	
 	
+	/**
+	 * Filtra los resultados luego de un findAll (el servicio de Actividad tiene un filtro para mostrar solo las actividades que aun
+	 * no han terminado.
+	 * @param lista sin filtrar.
+	 */
+	protected void filter(List<T> resultado, MultivaluedMap<String,String> queryParams){
+	}
+	
+	
 	
 	
 	public List<T> findAll(MultivaluedMap<String,String> queryParams){
@@ -79,7 +88,11 @@ public abstract class AbstractFacade<T> {
 		tq = getEntityManager().createQuery(query);		
 		setMaximo(tq, queryParams);
 		
-		return tq.getResultList();		
+		List<T> resultado = tq.getResultList();
+		
+		filter(resultado, queryParams);
+		
+		return resultado;		
 	}
 	
 	/**

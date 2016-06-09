@@ -40,6 +40,21 @@ public class Actividad implements Serializable {
 	private List<Usuario> participantes;
 
 	
+	/**
+	 * Verdadero si la actividad ya finalizo
+	 * @param timeActual (long, se puede obtener con new Date().getTime())
+	 * @return verdadero si ya finalizo
+	 */
+	public boolean yaFinalizo(long timeActual){
+		
+		long inicio = getFechaInicio().getTime();
+		long duraci = getDuracionEstimada().getTime();
+		
+		long tiempoFin = inicio + duraci;
+		
+		return timeActual >= tiempoFin;		
+	}
+	
 	
 	
 	public List<Usuario> getParticipantes() {
