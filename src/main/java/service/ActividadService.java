@@ -1,6 +1,5 @@
 package service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -34,23 +33,7 @@ public class ActividadService {
 	Logger logger = Logger.getLogger(ActividadService.class.getName());
 	
 	
-	@GET
-	@Path("FUCKME/{actividad_id}")
-	@Produces("text/html")
-	public String fuckme(@PathParam("actividad_id") Integer actividad_id){
-		
-		Actividad act = actividadEJB.find(actividad_id);
-		long inicio = act.getFechaInicio().getTime();
-		long duraci = act.getDuracionEstimada().getTime();
-		long ahora = new Date().getTime();
-		
-		String mayor = (inicio+duraci > ahora)? "Aun no finaliza" : "Ya finalizo";
-		
-		return "Inicio: "+inicio+", duracion: "+duraci+", now: "+ahora+". Fecha fin: "+ (inicio+duraci)+", "+mayor;
-	}
-	
-	
-	
+
 	@GET
 	@Produces({"application/xml", "application/json"})
 	public List<Actividad> findAll(@Context UriInfo ui){
@@ -67,8 +50,7 @@ public class ActividadService {
 		return a.getParticipantes();		
 	}
 	
-	
-	
+
 	@GET
 	@Path("{actividad_id: [0-9]+}")
 	@Produces({"application/xml", "application/json"})

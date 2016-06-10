@@ -56,6 +56,17 @@ public class Actividad implements Serializable {
 	}
 	
 	
+	public boolean usuarioEsOrganizadorOParticipante(int usuarioId){
+		
+		if(organizador.getUsuarioId() == usuarioId) return true;
+		
+		for(Usuario u : participantes){
+			if(u.getUsuarioId() == usuarioId) return true;
+		}
+		return false;		
+	}
+	
+	
 	
 	public List<Usuario> getParticipantes() {
 		return participantes;

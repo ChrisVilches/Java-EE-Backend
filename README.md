@@ -218,13 +218,19 @@ Diccionario de parametros extra:
   * **longitud**: Longitud donde centrar la busqueda.
   * **ladocuadrado**: Una vez centrada la busqueda, se crea un cuadrado de lado ```ladocuadrado``` alrededor del centro, y se filtran las actividades, mostrando solo las que estan dentro de este cuadrado.
 5. **nofinalizadas**: Filtra las actividades para mostrar solamente las que ya finalizaron (se calcula con su tiempo de inicio y duracion estimada). Este parametro no tiene valor, simplemente se pone asi ```var=1&nofinalizadas&dato=2```
+6. Parametros de notificaciones: Para obtener las "notificaciones", no se debe usar el parametro ```nofinalizadas```, y se debe usar estos parametros (todos simultaneamente):
+ * **usuario_no_participa**: Id del usuario. Las actividades mostradas seran solo las cuales el usuario no participa ni organiza.
+ * **minutos**: La actividad comienza dentro de cuantos minutos. Si se pone 30 minutos, quiere decir que la actividad comienza en un momento que esta dentro del rango **ahora**, y **ahora+30min**.
+ * Se pueden usar otros parametros de ubicacion geografica, en conjunto con estos parametros.
 
 
   Ejemplo con varios parametros:
 
-  ```
-  /actividades/?latitud=7&longitud=550&ladocuadrado=100&tipos=13&mostrar=2&ultima_id=39
-  ```
+  ```GET /actividades/?latitud=7&longitud=550&ladocuadrado=100&tipos=13&mostrar=2&ultima_id=39```
+
+  Otro ejemplo con notificaciones
+
+  ```GET /actividades/?latitud=7&longitud=505&ladocuadrado=1000&minutos=35&usuario_no_participa=2```
 
 
 
