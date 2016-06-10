@@ -273,22 +273,25 @@ Ejemplo de json:
 
 ```PUT /actividades/```
 
-Debe enviarse el JSON conteniendo la ID de la actividad, y los atributos que se quieran cambiar. El tipo se puede simplificar a solo su ID. El atributo organizador es ignorado, ya que no se puede modificar. Ejemplo:
+Debe enviarse el JSON conteniendo los atributos con sus valores actuales, y los nuevos valores en los atributos que se quieren cambiar. El tipo y organizador se puede simplificar a solo su ID. Ejemplo:
 
 ```json
 {
-    "actividadId": 4,
-    "cuerpoActividad": "Cuerpo actividad 4 Update",
+    "actividadId": 3,
+    "cuerpoActividad": "Cuerpo actividad 3",
     "duracionEstimada": "02:00:10-03:00",
-    "esActivo": false,
-    "fechaInicio": "2016-03-02T05:10:07-03:00",
-    "personasMaximas": 8,
-    "requerimientosActividad": "Requerimientos actividad 4 Update",
-    "tipo": {
-        "tipoId": 8
+    "esActivo": true,
+    "fechaInicio": "2016-05-02T05:10:07-03:00",
+    "organizador": {
+        "usuarioId": 1
     },
-    "tituloActividad": "Titulo actividad 4 Update",
-    "ubicacionActividadX": 800,
+    "personasMaximas": 5,
+    "requerimientosActividad": "Requerimientos actividad 3",
+    "tipo": {
+        "tipoId": 12
+    },
+    "tituloActividad": "Titulo actividad 3",
+    "ubicacionActividadX": 85,
     "ubicacionActividadY": 50
 }
 ```

@@ -32,7 +32,7 @@ public class Actividad implements Serializable {
 		
 	@ManyToOne @JoinColumn(name = "tipo_id", nullable=false) private Tipo tipo;
 	
-	@ManyToOne @JoinColumn(name = "organizador_id", nullable=false, updatable=false) private Usuario organizador;
+	@ManyToOne @JoinColumn(name = "organizador_id", nullable=false, updatable=true) private Usuario organizador;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "usuario_actividad", joinColumns = { @JoinColumn(name = "actividad_id") }, inverseJoinColumns = {
