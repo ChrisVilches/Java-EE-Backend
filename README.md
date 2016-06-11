@@ -32,6 +32,8 @@
   * [Listar reportes](#listar-reportes)
   * [Obtener reporte dado su ID](#obtener-reporte-dado-su-id)
   * [Marcar un reporte como revisado](#marcar-un-reporte-como-revisado)
+- [Tipo](#tipo)
+  * [Listar todos los tipos](#listar-todos-los-tipos)
 
 <!-- tocstop -->
 
@@ -335,3 +337,9 @@ Diccionario de parametros extra:
 ```PUT /reportes/{reporte_id}/revisar/{administrador_id}```
 
 El parametro ```administrador_id``` es la id del usuario administrador que revisa el reporte.
+
+## Tipo
+
+### Listar todos los tipos
+
+```GET /tipos```
