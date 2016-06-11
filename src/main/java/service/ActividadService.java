@@ -87,12 +87,17 @@ public class ActividadService {
 	@PUT
 	@Produces({"application/xml", "application/json"})
 	@Consumes({ "application/xml", "application/json" })
-	public Response editActividad(Actividad a){		
+	public Response editActividad(Actividad a){				
 		
+		List<Usuario> participantes = actividadEJB.find(a.getActividadId()).getParticipantes();
+			
 		if(a.getActividadId() == null) 
 			return Response.status(StatusCodeExtra.UNPROCESSABLE_ENTITY).build();	
 						
-		actividadEJB.edit(a);
+		a.setParticipantesFake(participantes);
+		
+		actividadEJB.edit(a);	
+		
 		return Response.status(Status.OK).build();		
 	}
 	

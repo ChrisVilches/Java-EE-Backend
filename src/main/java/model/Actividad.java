@@ -66,6 +66,9 @@ public class Actividad implements Serializable {
 		return false;		
 	}
 	
+	public void setParticipantesFake(List<Usuario> listaParticipantes){
+		this.participantes = listaParticipantes;
+	}
 	
 	
 	public List<Usuario> getParticipantes() {
