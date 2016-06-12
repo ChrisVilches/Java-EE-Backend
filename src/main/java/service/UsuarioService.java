@@ -67,13 +67,30 @@ public class UsuarioService {
 	public List<Actividad> obtenerActividades(@PathParam("usuario_id") Integer usuario_id, @Context UriInfo ui){		
 
 		Usuario u = usuarioEJB.find(usuario_id);
+		List<Actividad> resultado;
+		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
 		
-		if(ui.getQueryParameters().containsKey("organizador")){
+		if(queryParams.containsKey("organizador")){
 			// Si tiene el parametro "organizador" significa que se busca las actividades que organizo este usuario			
-			return u.getActividadesOrganizadas();			
+			resultado = u.getActividadesOrganizadas();			
 		}	
 	
-		return u.getActividades();
+		resultado = u.getActividades();
+		
+		
+		if(queryParams.containsKey("nofinalizadas")){
+			
+			Actividad.noFinalizadas(resultado);
+			
+		}
+		
+		if(queryParams.containsKey("limit_a") && queryParams.containsKey("limit_b")){
+			
+			Actividad.limitABfake(resultado, Integer.parseInt(queryParams.getFirst("limit_a")), Integer.parseInt(queryParams.getFirst("limit_b")));
+		}
+		
+		
+		return resultado;
 	}
 	
 	

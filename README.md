@@ -162,6 +162,14 @@ Los demas atributos (```disponibilidad```, ```last_update```, etc) no se inserta
 
 ```GET /usuarios/{usuario_id}/actividades```
 
+Permite los parametros **limit_a**, **limit_b** y **nofinalizadas**, ejemplo:
+
+```GET /usuarios/2/actividades?limit_a=1&limit_b=2```
+
+O tambien
+
+```GET /usuarios/2/actividades?nofinalizadas```
+
 
 ### Listar actividades que organizo un usuario
 
@@ -221,7 +229,7 @@ Diccionario de parametros extra:
   * **latitud**: Latitud donde centrar la busqueda.
   * **longitud**: Longitud donde centrar la busqueda.
   * **ladocuadrado**: Una vez centrada la busqueda, se crea un cuadrado de lado ```ladocuadrado``` alrededor del centro, y se filtran las actividades, mostrando solo las que estan dentro de este cuadrado.
-6. **nofinalizadas**: Filtra las actividades para mostrar solamente las que ya finalizaron (se calcula con su tiempo de inicio y duracion estimada). Este parametro no tiene valor, simplemente se pone asi ```var=1&nofinalizadas&dato=2```
+6. **nofinalizadas**: Filtra las actividades para mostrar solamente las que no han finalizado (se calcula con su tiempo de inicio y duracion estimada). Este parametro no tiene valor, simplemente se pone asi ```var=1&nofinalizadas&dato=2```
 7. Parametros de notificaciones: Para obtener las "notificaciones", no se debe usar el parametro ```nofinalizadas```, y se debe usar estos parametros (todos simultaneamente):
  * **usuario_no_participa**: Id del usuario. Las actividades mostradas seran solo las cuales el usuario no participa ni organiza.
  * **minutos**: La actividad comienza dentro de cuantos minutos. Si se pone 30 minutos, quiere decir que la actividad comienza en un momento que esta dentro del rango **ahora**, y **ahora+30min**.
@@ -257,6 +265,10 @@ El nombre de la categoria debe respetar minusculas y mayusculas.
 Ejemplo (**limit_a** es para que los resultados empiecen desde la fila 2 (numero empieza desde 0), y **limit_b** es para mostrar un total de 3 filas)
 
 ```GET /actividades/categoria/Deporte?limit_a=2&limit_b=3```
+
+Tambien acepta el parametro **nofinalizadas**, ejemplo
+
+```GET /actividades/categoria/Deporte?nofinalizadas```
 
 
 ### Agregar actividad

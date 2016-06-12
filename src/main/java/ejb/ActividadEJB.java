@@ -1,7 +1,6 @@
 package ejb;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -51,7 +50,7 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 		
 		Query q = em.createQuery(hql);		
 		
-		q.setParameter("nombreCategoria", nombreCategoria);
+		q.setParameter("nombreCategoria", nombreCategoria);	
 		
 		
 		/**
@@ -68,19 +67,24 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 				
 		}
 		
+		List<Actividad> resultado = q.getResultList();
 		
-		return (List<Actividad>) q.getResultList();
+		if(queryParams.containsKey("nofinalizadas")) {			
+			Actividad.noFinalizadas(resultado);			
+		}
+		
+		
+		return resultado;
 	}
 	
-
 	
+		
 	/**
 	 * Este filtro es porque en Java EE es dificil hacer operaciones con fechas
 	 * asi que si el parametro "nofinalizadas" esta puesto, filtra removiendo las que ya terminaron
 	 */
 	@Override
-	protected void filter(List<Actividad> resultado, MultivaluedMap<String,String> queryParams) {		
-		
+	protected void filter(List<Actividad> resultado, MultivaluedMap<String,String> queryParams) {			
 		
 		/**
 		 * 
@@ -90,51 +94,18 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 		
 		if(queryParams.containsKey("nofinalizadas")) {
 				
-			long now = new Date().getTime();
-			List<Actividad> nueva = new ArrayList<Actividad>();
+			Actividad.noFinalizadas(resultado);	
 			
-			for(Actividad act : resultado)
-				if(!act.yaFinalizo(now)) 
-					nueva.add(act);
-			
-			// Esto deberia ser con removeIf y eliminar las ya finalizadas, pero por alguna razon no compila Gradle los Predicates
-			
-			resultado.clear();
-			
-			for(Actividad act : nueva)
-				resultado.add(act);				
-			
-		} else if(queryParams.containsKey("usuario_no_participa") && queryParams.containsKey("minutos")){
-						
+		} else if(queryParams.containsKey("usuario_no_participa") && queryParams.containsKey("minutos")){			
 			
 			/**
 			 * 
 			 * Solo agregar actividades en las que el usuario no participa, y ademas que esten dentro de un rango de tiempo
 			 * 
 			 */
-			
-			
-			
-			List<Actividad> nueva = new ArrayList<Actividad>();
-			int usuarioId = Integer.parseInt(queryParams.getFirst("usuario_no_participa"));
 			long minutos = Long.parseLong(queryParams.getFirst("minutos"));
-			
-			long ahora = (new Date()).getTime();
-			long limite = ahora + (minutos * 60 * 1000);
-			
-			for(Actividad act : resultado){
-				
-				long tiempoActividad = act.getFechaInicio().getTime();							
-				if(!act.usuarioEsOrganizadorOParticipante(usuarioId) && ahora < tiempoActividad && tiempoActividad < limite){
-					// La actividad esta dentro del rango de tiempo, y no fue organizado ni participa el usuario
-					nueva.add(act);
-				}			
-			}		
-			
-			resultado.clear();			
-			for(Actividad act : nueva)
-				resultado.add(act);				
-			
+			int usuarioId = Integer.parseInt(queryParams.getFirst("usuario_no_participa"));
+			Actividad.noParticipaDentroDe(resultado, minutos, usuarioId);					
 		}
 	}
 	

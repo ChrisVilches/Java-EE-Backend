@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.sql.Time;
@@ -54,6 +55,63 @@ public class Actividad implements Serializable {
 		
 		return timeActual >= tiempoFin;		
 	}
+	
+	
+	
+	/**
+	 * Toma una lista de actividades, y cambia la misma lista pero solo con las que no han terminado
+	 * @param actividades
+	 */
+	public static void noFinalizadas(List<Actividad> actividades){		
+		ArrayList<Actividad> resultado = new ArrayList<Actividad>();		
+		long now = new Date().getTime();
+		for(Actividad act : actividades)
+			if(!act.yaFinalizo(now)) 
+				resultado.add(act);		
+		
+		actividades.clear();
+		for(Actividad act : resultado)
+			actividades.add(act);
+			
+	}
+	
+	
+	/**
+	 * Toma una lista de actividades, y cambia la misma lista solo con las que el usuario no participa, y esta dentro del rango de tiempo
+	 * @param actividades
+	 * @param dentroDeMinutos
+	 * @param usuarioId
+	 */
+	public static void noParticipaDentroDe(List<Actividad> actividades, long dentroDeMinutos, int usuarioId){
+		ArrayList<Actividad> resultado = new ArrayList<Actividad>();				
+		long ahora = (new Date()).getTime();
+		long limite = ahora + (dentroDeMinutos * 60 * 1000);		
+		for(Actividad act : actividades){			
+			long tiempoActividad = act.getFechaInicio().getTime();							
+			if(!act.usuarioEsOrganizadorOParticipante(usuarioId) && ahora < tiempoActividad && tiempoActividad < limite){
+				resultado.add(act);
+			}			
+		}				
+		
+		actividades.clear();
+		for(Actividad act : resultado)
+			actividades.add(act);
+	}
+	
+	
+	
+	
+	public static void limitABfake(List<Actividad> actividades, int a, int b){
+		
+		ArrayList<Actividad> resultado = new ArrayList<Actividad>();
+		for(int i=a; i<a+b; i++){			
+			resultado.add(actividades.get(i));			
+		}		
+		actividades.clear();
+		for(Actividad act : resultado)
+			actividades.add(act);		
+	}
+	
 	
 	
 	public boolean usuarioEsOrganizadorOParticipante(int usuarioId){
