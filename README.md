@@ -238,13 +238,13 @@ Diccionario de parametros extra:
 9. **tiempo_inicio** y **tiempo_fin**: Sirve para entregar solo las que se encuentran dentro del rango de fechas. El formato es ```YY-MM-DD-hh:mm:ss``` (Año, mes, dia, hora, minutos, y segundos, en ese orden, cada numero separado por UN caracter, de los cuales puede ser alguno de estos ```:/\-_```). Ver ejemplo de uso mas abajo.
 
 
-  Ejemplo con varios parametros:
+Ejemplo con varios parametros:
 
-  ```GET /actividades/?latitud=7&longitud=550&ladocuadrado=100&tipos=13&mostrar=2&ultima_id=39```
+```GET /actividades/?latitud=7&longitud=550&ladocuadrado=100&tipos=13&mostrar=2&ultima_id=39```
 
-  Otro ejemplo con notificaciones
+Otro ejemplo con notificaciones
 
-  ```GET /actividades/?latitud=7&longitud=505&ladocuadrado=1000&minutos=35&usuario_no_participa=2```
+```GET /actividades/?latitud=7&longitud=505&ladocuadrado=1000&minutos=35&usuario_no_participa=2```
 
 
 Ejemplo con fechas:
