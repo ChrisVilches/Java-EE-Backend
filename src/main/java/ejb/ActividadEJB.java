@@ -116,6 +116,12 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 	protected void obtenerParametrosURL(CriteriaQuery<Actividad> q, CriteriaBuilder cb, Root<Actividad> t, MultivaluedMap<String, String> queryParams) {
 		
 		if(queryParams == null) return;
+		
+		/**
+		 * 
+		 * Filtrar por tipos
+		 */
+		
 		if(queryParams.containsKey("tipos")){
 			
 				// Agregar una condicion para mostrar actividades filtradas por tipos (lista de tipos)
@@ -129,8 +135,22 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 				
 				agregarRestriccion(q, cb, t, t.<Tipo> get("tipo").<Integer> get("tipoId").in(tiposIds));				
 				q.orderBy(cb.desc(t.<Integer> get("actividadId")));					
-		}			
+		}
+		
+		/**
+		 * 
+		 *  Filtrar por es_activo
+		 */
+		
+		if(queryParams.containsKey("activas")){			
+			agregarRestriccion(q, cb, t, cb.isTrue(t.<Boolean> get("esActivo")));							
+		}
 				
+		/**
+		 * Filtrar geograficamente (solo mostrar las que estan dentro del cuadrado)
+		 * 
+		 */
+		
 		
 		if(queryParams.containsKey("latitud") && queryParams.containsKey("longitud") && queryParams.containsKey("ladocuadrado")){			
 	

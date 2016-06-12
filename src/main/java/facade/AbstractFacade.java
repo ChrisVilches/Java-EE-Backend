@@ -120,12 +120,15 @@ public abstract class AbstractFacade<T> {
 	 */
 	private void paginarDesde(CriteriaQuery<T> q, CriteriaBuilder cb, Root<T> t, MultivaluedMap<String, String> queryParams){		
 		
+		q.orderBy(cb.desc(t.<Integer>get(idAttributeName)));
+		
 		// Agrega la restriccion WHERE id < ultimaId
 		
 		if(queryParams == null) return;
 		if(queryParams.containsKey("ultima_id")){				
 			
-			q.orderBy(cb.desc(t.<Integer>get(idAttributeName)));
+			// Comento esto porque ahora ocurre siempre
+			//q.orderBy(cb.desc(t.<Integer>get(idAttributeName)));
 			
 			int ultimaId = Integer.parseInt(queryParams.get("ultima_id").get(0));
 			
@@ -160,9 +163,28 @@ public abstract class AbstractFacade<T> {
 	 */
 	protected void setMaximo(TypedQuery<T> tq, MultivaluedMap<String, String> queryParams){		
 		if(queryParams == null) return;
+		
+		/**
+		 * Mostrar usando LIMIT a
+		 */
+		
 		if(queryParams.containsKey("mostrar")){					
 			tq.setMaxResults(Integer.parseInt(queryParams.get("mostrar").get(0)));
-		}		
+		} else 
+			
+			/**
+			 * Mostrar usando LIMIT a,b
+			 */
+			
+			if(queryParams.containsKey("limit_a") && queryParams.containsKey("limit_b")){				
+				
+				int a = Integer.parseInt(queryParams.getFirst("limit_a"));
+				int b = Integer.parseInt(queryParams.getFirst("limit_b"));
+
+				tq.setFirstResult(a);
+				tq.setMaxResults(b);							
+					
+			}
 	}
 		
 

@@ -210,20 +210,22 @@ Los atributos ```created_at``` y ```last_update``` son ignorados.
 Diccionario de parametros extra:
 
 1. **mostrar (numero)**: Limite de cuantos elementos se quieren ver. Equivalente a: [Listar todos los usuarios](#listar-todos-los-usuarios)
-2. **ultima_id (numero)**: Obtener los elementos a partir de la ultima_id. Sirve para paginar. Equivalente a: [Listar todos los usuarios](#listar-todos-los-usuarios)
-3. **tipos**: Sirve para obtener la union de actividades que pertenecen a los tipos de la lista entregada. Ejemplos de formato es:
+2. **limit_a** y **limit_b**: Sirve tambien para paginar. El parametro **limit_a** indica en que posicion comienza (si el valor es 0, entonces entrega la primera fila), y **limit_b** indica la cantidad de filas que se desea obtener.
+3. **ultima_id (numero)**: Obtener los elementos a partir de la ultima_id. Sirve para paginar. Equivalente a: [Listar todos los usuarios](#listar-todos-los-usuarios)
+4. **tipos**: Sirve para obtener la union de actividades que pertenecen a los tipos de la lista entregada. Ejemplos de formato es:
   * ```?tipos=2```
   * ```?tipos=2-3-4```
   * ```?tipos=2-7-8-9-3```
-4. Parametros georeferenciales: Para hacer una busqueda geografica, tienen que existir estos tres parametros (simultaneamente):
+5. Parametros georeferenciales: Para hacer una busqueda geografica, tienen que existir estos tres parametros (simultaneamente):
   * **latitud**: Latitud donde centrar la busqueda.
   * **longitud**: Longitud donde centrar la busqueda.
   * **ladocuadrado**: Una vez centrada la busqueda, se crea un cuadrado de lado ```ladocuadrado``` alrededor del centro, y se filtran las actividades, mostrando solo las que estan dentro de este cuadrado.
-5. **nofinalizadas**: Filtra las actividades para mostrar solamente las que ya finalizaron (se calcula con su tiempo de inicio y duracion estimada). Este parametro no tiene valor, simplemente se pone asi ```var=1&nofinalizadas&dato=2```
-6. Parametros de notificaciones: Para obtener las "notificaciones", no se debe usar el parametro ```nofinalizadas```, y se debe usar estos parametros (todos simultaneamente):
+6. **nofinalizadas**: Filtra las actividades para mostrar solamente las que ya finalizaron (se calcula con su tiempo de inicio y duracion estimada). Este parametro no tiene valor, simplemente se pone asi ```var=1&nofinalizadas&dato=2```
+7. Parametros de notificaciones: Para obtener las "notificaciones", no se debe usar el parametro ```nofinalizadas```, y se debe usar estos parametros (todos simultaneamente):
  * **usuario_no_participa**: Id del usuario. Las actividades mostradas seran solo las cuales el usuario no participa ni organiza.
  * **minutos**: La actividad comienza dentro de cuantos minutos. Si se pone 30 minutos, quiere decir que la actividad comienza en un momento que esta dentro del rango **ahora**, y **ahora+30min**.
  * Se pueden usar otros parametros de ubicacion geografica, en conjunto con estos parametros.
+8. **activas**: Parametro (sin valor) que filtra para mostrar solo las que estan activas (```es_activo = true``` en la base de datos). Se utiliza de esta forma ```/actividades?activas```
 
 
   Ejemplo con varios parametros:
