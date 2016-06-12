@@ -113,13 +113,13 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 		/**
 		 * Acotar las actividades mostradas dentro de un rango de tiempo
 		 */
-		else if(queryParams.containsKey("tiempo_inicio") && queryParams.containsKey("tiempo_fin")){
+		else if(queryParams.containsKey("tiempo_inicio")){
 			
-			String[] splitInicio = queryParams.getFirst("tiempo_inicio").split("[:-_]");
-			String[] splitFin = queryParams.getFirst("tiempo_fin").split("[:-_]");
-					
-			if(splitInicio.length == splitFin.length && splitInicio.length == 6){
-				
+			String[] splitInicio = queryParams.getFirst("tiempo_inicio").split("[:_-]");
+			String[] splitFin;
+
+			if(splitInicio.length == 6){
+
 				// Tiene que cumplirse el formato yy-mm-dd-hh-mm-ss
 				
 				Calendar cal = Calendar.getInstance();
@@ -131,19 +131,27 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 						Integer.parseInt(splitInicio[4]),
 						Integer.parseInt(splitInicio[5]));
 				Date inicio = cal.getTime();
+							
+
+				if(queryParams.containsKey("tiempo_fin") && (splitFin = queryParams.getFirst("tiempo_fin").split("[:_-]")).length == 6){					
 				
-				
-				cal.setTimeInMillis(0);
-				cal.set(Integer.parseInt(splitFin[0]),
-						Integer.parseInt(splitFin[1])-1,
-						Integer.parseInt(splitFin[2]),
-						Integer.parseInt(splitFin[3]),
-						Integer.parseInt(splitFin[4]),
-						Integer.parseInt(splitFin[5]));
-				Date fin = cal.getTime();
-				
-				Actividad.dentroDeRango(resultado, inicio.getTime(), fin.getTime());
-				
+					
+					cal.setTimeInMillis(0);
+					cal.set(Integer.parseInt(splitFin[0]),
+							Integer.parseInt(splitFin[1])-1,
+							Integer.parseInt(splitFin[2]),
+							Integer.parseInt(splitFin[3]),
+							Integer.parseInt(splitFin[4]),
+							Integer.parseInt(splitFin[5]));
+					Date fin = cal.getTime();
+					Actividad.dentroDeRango(resultado, inicio.getTime(), fin.getTime());
+				} else {
+
+					// Solo esta tiempo de inicio
+					Actividad.dentroDeRango(resultado, inicio.getTime());
+					
+				}
+						
 			
 			}
 			

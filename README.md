@@ -236,6 +236,7 @@ Diccionario de parametros extra:
  * Se pueden usar otros parametros de ubicacion geografica, en conjunto con estos parametros.
 8. **activas**: Parametro (sin valor) que filtra para mostrar solo las que estan activas (```es_activo = true``` en la base de datos). Se utiliza de esta forma ```/actividades?activas```
 9. **tiempo_inicio** y **tiempo_fin**: Sirve para entregar solo las que se encuentran dentro del rango de fechas, es decir, las que tienen como **fecha de inicio** dentro de ese rango. El formato es ```YY-MM-DD-hh:mm:ss``` (Año, mes, dia, hora, minutos, y segundos, en ese orden, cada numero separado por UN caracter, de los cuales puede ser alguno de estos ```:-_```). Ver ejemplo de uso mas abajo.
+ * Si solo se pone **tiempo_inicio**, entonces se muestran las que empiezan luego de esa fecha (sin limite superior).
 
 
 Ejemplo con varios parametros:
@@ -250,6 +251,8 @@ Otro ejemplo con notificaciones
 Ejemplo con fechas:
 
 ```GET /actividades/?tiempo_inicio=2016-06-01-00:00:00&tiempo_fin=2016-11-05-00:10:00```
+
+```GET /actividades/?tiempo_inicio=2016-07-01-00:00:00```
 
 
 ### Obtener actividad por su ID

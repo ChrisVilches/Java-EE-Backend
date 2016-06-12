@@ -134,6 +134,12 @@ public class Actividad implements Serializable {
 	}
 	
 	
+	public static void dentroDeRango(List<Actividad> actividades, long inicio){		
+		dentroDeRango(actividades, inicio, Long.MAX_VALUE);
+	}
+	
+	
+	
 	public boolean usuarioEsOrganizadorOParticipante(int usuarioId){
 		
 		if(organizador.getUsuarioId() == usuarioId) return true;
