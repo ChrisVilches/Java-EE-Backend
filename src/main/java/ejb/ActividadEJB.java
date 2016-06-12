@@ -115,8 +115,8 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 		 */
 		else if(queryParams.containsKey("tiempo_inicio") && queryParams.containsKey("tiempo_fin")){
 			
-			String[] splitInicio = queryParams.getFirst("tiempo_inicio").split("[:/\\-_]");
-			String[] splitFin = queryParams.getFirst("tiempo_fin").split("[:/\\-_]");
+			String[] splitInicio = queryParams.getFirst("tiempo_inicio").split("[:-_]");
+			String[] splitFin = queryParams.getFirst("tiempo_fin").split("[:-_]");
 					
 			if(splitInicio.length == splitFin.length && splitInicio.length == 6){
 				

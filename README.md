@@ -235,7 +235,7 @@ Diccionario de parametros extra:
  * **minutos**: La actividad comienza dentro de cuantos minutos. Si se pone 30 minutos, quiere decir que la actividad comienza en un momento que esta dentro del rango **ahora**, y **ahora+30min**.
  * Se pueden usar otros parametros de ubicacion geografica, en conjunto con estos parametros.
 8. **activas**: Parametro (sin valor) que filtra para mostrar solo las que estan activas (```es_activo = true``` en la base de datos). Se utiliza de esta forma ```/actividades?activas```
-9. **tiempo_inicio** y **tiempo_fin**: Sirve para entregar solo las que se encuentran dentro del rango de fechas. El formato es ```YY-MM-DD-hh:mm:ss``` (Año, mes, dia, hora, minutos, y segundos, en ese orden, cada numero separado por UN caracter, de los cuales puede ser alguno de estos ```:/\-_```). Ver ejemplo de uso mas abajo.
+9. **tiempo_inicio** y **tiempo_fin**: Sirve para entregar solo las que se encuentran dentro del rango de fechas. El formato es ```YY-MM-DD-hh:mm:ss``` (Año, mes, dia, hora, minutos, y segundos, en ese orden, cada numero separado por UN caracter, de los cuales puede ser alguno de estos ```:-_```). Ver ejemplo de uso mas abajo.
 
 
 Ejemplo con varios parametros:
