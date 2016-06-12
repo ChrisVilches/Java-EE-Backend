@@ -1,6 +1,8 @@
 package ejb;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -107,6 +109,47 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 			int usuarioId = Integer.parseInt(queryParams.getFirst("usuario_no_participa"));
 			Actividad.noParticipaDentroDe(resultado, minutos, usuarioId);					
 		}
+		
+		/**
+		 * Acotar las actividades mostradas dentro de un rango de tiempo
+		 */
+		else if(queryParams.containsKey("tiempo_inicio") && queryParams.containsKey("tiempo_fin")){
+			
+			String[] splitInicio = queryParams.getFirst("tiempo_inicio").split("[:/\\-_]");
+			String[] splitFin = queryParams.getFirst("tiempo_fin").split("[:/\\-_]");
+					
+			if(splitInicio.length == splitFin.length && splitInicio.length == 6){
+				
+				// Tiene que cumplirse el formato yy-mm-dd-hh-mm-ss
+				
+				Calendar cal = Calendar.getInstance();
+				cal.setTimeInMillis(0);
+				cal.set(Integer.parseInt(splitInicio[0]),
+						Integer.parseInt(splitInicio[1])-1,
+						Integer.parseInt(splitInicio[2]),
+						Integer.parseInt(splitInicio[3]),
+						Integer.parseInt(splitInicio[4]),
+						Integer.parseInt(splitInicio[5]));
+				Date inicio = cal.getTime();
+				
+				
+				cal.setTimeInMillis(0);
+				cal.set(Integer.parseInt(splitFin[0]),
+						Integer.parseInt(splitFin[1])-1,
+						Integer.parseInt(splitFin[2]),
+						Integer.parseInt(splitFin[3]),
+						Integer.parseInt(splitFin[4]),
+						Integer.parseInt(splitFin[5]));
+				Date fin = cal.getTime();
+				
+				Actividad.dentroDeRango(resultado, inicio.getTime(), fin.getTime());
+				
+			
+			}
+			
+			
+		}
+		
 	}
 	
 	

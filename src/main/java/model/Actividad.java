@@ -112,6 +112,26 @@ public class Actividad implements Serializable {
 			actividades.add(act);		
 	}
 	
+	/**
+	 * Filtra las actividades para que solo queden las que estan dentro de un rango de tiempo
+	 * @param actividades
+	 * @param inicio
+	 * @param fin
+	 */
+	public static void dentroDeRango(List<Actividad> actividades, long inicio, long fin){
+				
+		ArrayList<Actividad> resultado = new ArrayList<Actividad>();
+		for(Actividad act : actividades){					
+			
+			long fechaInicio = act.getFechaInicio().getTime();		
+				
+			if(inicio < fechaInicio && fechaInicio < fin)			
+				resultado.add(act);			
+		}		
+		actividades.clear();
+		for(Actividad act : resultado)
+			actividades.add(act);				
+	}
 	
 	
 	public boolean usuarioEsOrganizadorOParticipante(int usuarioId){
