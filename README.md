@@ -22,6 +22,7 @@
   * [Listar todas las actividades](#listar-todas-las-actividades)
   * [Obtener actividad por su ID](#obtener-actividad-por-su-id)
   * [Listar todas las actividades organizadas por un usuario (ID)](#listar-todas-las-actividades-organizadas-por-un-usuario-id)
+  * [Listar actividades que pertenecen a una categoria](#listar-actividades-que-pertenecen-a-una-categoria)
   * [Agregar actividad](#agregar-actividad)
   * [Listar usuarios que participan en una actividad](#listar-usuarios-que-participan-en-una-actividad)
   * [Editar actividad](#editar-actividad)
@@ -246,6 +247,16 @@ Diccionario de parametros extra:
 ### Listar todas las actividades organizadas por un usuario (ID)
 
 ```GET /actividades/organizador/{usuario_organizador_id}```
+
+### Listar actividades que pertenecen a una categoria
+
+```GET /actividades/categoria/{nombre_categoria}```
+
+El nombre de la categoria debe respetar minusculas y mayusculas.
+
+Ejemplo (**limit_a** es para que los resultados empiecen desde la fila 2 (numero empieza desde 0), y **limit_b** es para mostrar un total de 3 filas)
+
+```GET /actividades/categoria/Deporte?limit_a=2&limit_b=3```
 
 
 ### Agregar actividad

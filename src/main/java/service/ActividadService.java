@@ -72,6 +72,16 @@ public class ActividadService {
 	
 	}
 	
+	
+	@GET
+	@Path("/categoria/{nombre_categoria: [a-zA-Z]+}")
+	@Produces({"application/xml", "application/json"})
+	public List<Actividad> actividadesCategoriaNombre(@PathParam("nombre_categoria") String  nombre_categoria, @Context UriInfo ui){
+		
+		return actividadEJB.actividadesCategoriaNombre(nombre_categoria, ui.getQueryParameters());	
+	
+	}
+	
 
 	
 	@POST

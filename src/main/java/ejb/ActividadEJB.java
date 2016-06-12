@@ -43,6 +43,35 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 		return (List<Actividad>) q.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Actividad> actividadesCategoriaNombre(String nombreCategoria, MultivaluedMap<String, String> queryParams){
+		
+		String hql = "SELECT a FROM Actividad a INNER JOIN a.tipo t INNER JOIN t.categoria c WHERE c.nombreCategoria = :nombreCategoria ORDER BY a DESC";
+		
+		Query q = em.createQuery(hql);		
+		
+		q.setParameter("nombreCategoria", nombreCategoria);
+		
+		
+		/**
+		 * Paginacion
+		 */
+		
+		if(queryParams.containsKey("limit_a") && queryParams.containsKey("limit_b")){				
+			
+			int a = Integer.parseInt(queryParams.getFirst("limit_a"));
+			int b = Integer.parseInt(queryParams.getFirst("limit_b"));
+
+			q.setFirstResult(a);
+			q.setMaxResults(b);						
+				
+		}
+		
+		
+		return (List<Actividad>) q.getResultList();
+	}
+	
 
 	
 	/**
@@ -152,6 +181,7 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 		 */
 		
 		
+		
 		if(queryParams.containsKey("latitud") && queryParams.containsKey("longitud") && queryParams.containsKey("ladocuadrado")){			
 	
 			float ladoCuadrado = Float.parseFloat(queryParams.getFirst("ladocuadrado"));
@@ -179,7 +209,7 @@ public class ActividadEJB extends AbstractFacade<Actividad> implements Actividad
 			
 			q.orderBy(cb.desc(t.<Integer> get("actividadId")));			
 			
-		}		
+		}				
 	}
 	
 

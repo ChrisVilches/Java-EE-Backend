@@ -25,6 +25,8 @@ public interface ActividadFacade {
 	public Actividad encontrarMasReciente();
 	
 	public List<Actividad> actividadesOrganizadasPor(int idUsuario);	
+	
+	public List<Actividad> actividadesCategoriaNombre(String nombreCategoria, MultivaluedMap<String,String> queryParams);
 
 	public List<Actividad> findRange(int[] range);
 
