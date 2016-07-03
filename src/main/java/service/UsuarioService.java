@@ -121,6 +121,14 @@ public class UsuarioService {
 		
 	}
 	
+	
+	@GET
+	@Path("{usuario_id}/calificacion")
+	@Produces({"application/xml", "application/json"})
+	public String obtenerCalificacion(@PathParam("usuario_id") Integer usuario_id){
+		return String.valueOf((int)(Math.random() * 10));
+	}
+	
 
 	
 	@POST
